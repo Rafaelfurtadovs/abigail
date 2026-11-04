@@ -43,9 +43,11 @@ No administrator privileges are required. Run Abigail as an ordinary user.
    go version
    ```
 
-2. In the root of this repository, build Abigail:
+2. Clone the repository and build Abigail:
 
    ```sh
+   git clone https://github.com/Rafaelfurtadovs/abigail.git
+   cd abigail
    go build -o abigail ./cmd/abigail
    ```
 
@@ -60,8 +62,7 @@ executable is built for the machine on which `go build` runs and includes the
 default rule pack. To remove it, delete that executable; Abigail does not
 require a system-wide installation.
 
-Once this repository is published on GitHub, you can also install the latest
-published module version with:
+You can also install the latest public module version with:
 
 ```sh
 go install github.com/Rafaelfurtadovs/abigail/cmd/abigail@latest
