@@ -7,10 +7,10 @@ Abigail is an open-source Go scanner for potential subdomain takeovers. It check
 With Go 1.26.10 or newer:
 
 ```sh
-go install github.com/Rafaelfurtadovs/abigail/cmd/abigail@v0.2.2
+go install github.com/Rafaelfurtadovs/abigail/cmd/abigail@v0.2.3
 ```
 
-The binary is placed in `GOBIN` or, by default, `$(go env GOPATH)/bin`. Without Go, download the archive for your system from the [v0.2.2 release](https://github.com/Rafaelfurtadovs/abigail/releases/tag/v0.2.2), verify it against `SHA256SUMS`, and extract it.
+The binary is placed in `GOBIN` or, by default, `$(go env GOPATH)/bin`. Without Go, download the archive for your system from the [v0.2.3 release](https://github.com/Rafaelfurtadovs/abigail/releases/tag/v0.2.3), verify it against `SHA256SUMS`, and extract it.
 
 ## License
 

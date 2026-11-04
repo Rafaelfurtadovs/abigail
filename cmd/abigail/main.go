@@ -25,7 +25,7 @@ import (
 	"github.com/Rafaelfurtadovs/abigail/rules"
 )
 
-const version = "0.2.2"
+const version = "0.2.3"
 
 type config struct {
 	domain            string
@@ -63,6 +63,15 @@ func run(args []string, stdout, stderr io.Writer) int {
 }
 
 func usage(w io.Writer) {
+	fmt.Fprintln(w, strings.Join([]string{
+		"         __    _             _ __",
+		"  ____ _/ /_  (_)___ _____ _(_) /",
+		" / __ `/ __ \\/ / __ `/ __ `/ / /",
+		"/ /_/ / /_/ / / /_/ / /_/ / / /",
+		"\\__,_/_.___/_/\\__, /\\__,_/_/_/",
+		"             /____/",
+	}, "\n"))
+	fmt.Fprintln(w)
 	fmt.Fprintln(w, `Abigail: evidence-based subdomain takeover detection
 
 Usage:

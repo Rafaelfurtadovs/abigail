@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.3
+
+- Show the Abigail ASCII banner above the command-line usage text.
+
 ## v0.2.2
 
 - Simplify installation and license information in the README. No scanner behavior or rule changes.
