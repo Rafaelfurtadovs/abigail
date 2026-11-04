@@ -1,0 +1,851 @@
+{
+  "schema_version": 1,
+  "rules": [
+    {
+      "id": "activecampaign",
+      "service": "ActiveCampaign",
+      "cname_suffixes": [
+        "activehosted.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "alt=\"LIGHTTPD - fly light.\""
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "aftership",
+      "service": "Aftership",
+      "cname_suffixes": [
+        "aftership.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "Oops.</h2><p class=\"text-muted text-tight\">The page you're looking for doesn't exist."
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "agile-crm",
+      "service": "Agile CRM",
+      "cname_suffixes": [
+        "agilecrm.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "Sorry, this page is no longer available."
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "aha",
+      "service": "Aha",
+      "cname_suffixes": [],
+      "cname_exact": [
+        "ideas.aha.io"
+      ],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "There is no portal here ... sending you back to Aha!"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "anima",
+      "service": "Anima",
+      "cname_suffixes": [
+        "animaapp.io"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "The page you were looking for does not exist."
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "announcekit",
+      "service": "Announcekit",
+      "cname_suffixes": [],
+      "cname_exact": [
+        "cname.announcekit.app"
+      ],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "Error 404 - AnnounceKit"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "appery-io",
+      "service": "Appery.io",
+      "cname_suffixes": [
+        "appery.io"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "This page will be updated automatically when your app is published."
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "aws-elastic-beanstalk",
+      "service": "AWS/Elastic Beanstalk",
+      "cname_suffixes": [
+        "elasticbeanstalk.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [],
+      "target_nxdomain": true,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "aws-s3",
+      "service": "AWS/S3",
+      "cname_suffixes": [
+        "s3.amazonaws.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "The specified bucket does not exist"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "bigcartel",
+      "service": "BigCartel",
+      "cname_suffixes": [
+        "bigcartel.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "<h1>Oops! We couldn&#8217;t find that page.</h1>"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "bitbucket",
+      "service": "Bitbucket",
+      "cname_suffixes": [
+        "bitbucket.io"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "Repository not found"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "branch-io",
+      "service": "Branch.io",
+      "cname_suffixes": [
+        "app.link",
+        "bnc.lt"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "That link could not be found!"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "brandpad",
+      "service": "Brandpad",
+      "cname_suffixes": [
+        "brandpad.io"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "Sorry, that page doesn't exist"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "brightcove",
+      "service": "Brightcove",
+      "cname_suffixes": [
+        "brightcovegallery.com",
+        "gallery.video",
+        "bcvp0rtal.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "<p class=\"bc-gallery-error-code\">Error Code: 404</p>"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "discourse",
+      "service": "Discourse",
+      "cname_suffixes": [
+        "trydiscourse.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [],
+      "target_nxdomain": true,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "flywheel",
+      "service": "Flywheel",
+      "cname_suffixes": [
+        "getflywheel.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "We're sorry, you've landed on a page that is hosted by Flywheel"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "gemfury",
+      "service": "Gemfury",
+      "cname_suffixes": [
+        "furyns.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "404: This page could not be found."
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "gitbook",
+      "service": "Gitbook",
+      "cname_suffixes": [
+        "gitbook.io"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "Domain not found"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "github-pages",
+      "service": "GitHub Pages",
+      "cname_suffixes": [
+        "github.io"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "There isn't a GitHub Pages site here."
+      ],
+      "target_nxdomain": false,
+      "status": "edge_case",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "hatenablog",
+      "service": "HatenaBlog",
+      "cname_suffixes": [
+        "hatenablog.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "404 Blog is not found"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "help-juice",
+      "service": "Help Juice",
+      "cname_suffixes": [
+        "helpjuice.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "We could not find what you're looking for."
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "help-scout",
+      "service": "Help Scout",
+      "cname_suffixes": [
+        "helpscoutdocs.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "No settings were found for this company:"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "heroku",
+      "service": "Heroku",
+      "cname_suffixes": [
+        "herokuapp.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "No such app"
+      ],
+      "target_nxdomain": false,
+      "status": "edge_case",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "jazzhr",
+      "service": "JazzHR",
+      "cname_suffixes": [
+        "jazzhr.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "This account no longer active"
+      ],
+      "target_nxdomain": false,
+      "status": "edge_case",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "jetbrains",
+      "service": "JetBrains",
+      "cname_suffixes": [
+        "youtrack.cloud"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "is not a registered InCloud YouTrack"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "kajabi",
+      "service": "Kajabi",
+      "cname_suffixes": [],
+      "cname_exact": [
+        "endpoint.mykajabi.com"
+      ],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "<h1>The page you were looking for doesn't exist.</h1>"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "leadpages-com",
+      "service": "LeadPages.com",
+      "cname_suffixes": [
+        "leadpages.net"
+      ],
+      "cname_exact": [
+        "custom-proxy.leadpages.net"
+      ],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "Double check that you have the right web address and give it another go!</p>"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "netlify",
+      "service": "Netlify",
+      "cname_suffixes": [],
+      "cname_exact": [
+        "cname.netlify.app",
+        "cname.netlify.com"
+      ],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "Not Found - Request ID:"
+      ],
+      "target_nxdomain": false,
+      "status": "edge_case",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "proposify",
+      "service": "Proposify",
+      "cname_suffixes": [
+        "proposify.biz"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "If you need immediate assistance, please contact <a href=\"mailto:support@proposify.biz"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "readme-io",
+      "service": "Readme.io",
+      "cname_suffixes": [
+        "readme.io"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "The creators of this project are still working on making everything perfect!"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "shopify",
+      "service": "Shopify",
+      "cname_suffixes": [
+        "myshopify.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "Sorry, this shop is currently unavailable."
+      ],
+      "target_nxdomain": false,
+      "status": "edge_case",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "simplebooklet",
+      "service": "SimpleBooklet",
+      "cname_suffixes": [
+        "simplebooklet.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "We can't find this <a href=\"https://simplebooklet.com"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "sprintful",
+      "service": "Sprintful",
+      "cname_suffixes": [
+        "sprintful.com"
+      ],
+      "cname_exact": [
+        "proxy.sprintful.com",
+        "cname.sprintful.com"
+      ],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "This domain name does not have a default page configured."
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "strikingly",
+      "service": "Strikingly",
+      "cname_suffixes": [],
+      "cname_exact": [
+        "s.strikinglydns.com"
+      ],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "PAGE NOT FOUND."
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "surge-sh",
+      "service": "Surge.sh",
+      "cname_suffixes": [],
+      "cname_exact": [
+        "na-west1.surge.sh"
+      ],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "project not found"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "surveygizmo",
+      "service": "Surveygizmo",
+      "cname_suffixes": [],
+      "cname_exact": [
+        "privatedomain.sgizmo.com",
+        "privatedomain.surveygizmo.eu",
+        "privatedomain.sgizmoca.com"
+      ],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "data-html-name"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "surveysparrow",
+      "service": "SurveySparrow",
+      "cname_suffixes": [
+        "surveysparrow.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "Account not found."
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "tave",
+      "service": "Tave",
+      "cname_suffixes": [],
+      "cname_exact": [
+        "clientaccess.tave.com"
+      ],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "<h1>Error 404: Page Not Found</h1>"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "teamwork",
+      "service": "Teamwork",
+      "cname_suffixes": [
+        "teamwork.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "Oops - We didn't find your site."
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "thinkific",
+      "service": "Thinkific",
+      "cname_suffixes": [
+        "thinkific.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "You may have mistyped the address or the page may have moved."
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "tribe",
+      "service": "Tribe",
+      "cname_suffixes": [],
+      "cname_exact": [
+        "domains.tribeplatform.com"
+      ],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "Community not found"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "uberflip",
+      "service": "Uberflip",
+      "cname_suffixes": [],
+      "cname_exact": [
+        "read.uberflip.com"
+      ],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "The URL you've accessed does not provide a hub."
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "uptimerobot",
+      "service": "Uptimerobot",
+      "cname_suffixes": [],
+      "cname_exact": [
+        "stats.uptimerobot.com"
+      ],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "page not found"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "vend",
+      "service": "Vend",
+      "cname_suffixes": [
+        "vendecommerce.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "Looks like you've traveled too far into cyberspace."
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "vercel",
+      "service": "Vercel",
+      "cname_suffixes": [
+        "vercel.com"
+      ],
+      "cname_exact": [
+        "cname.vercel-dns.com"
+      ],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "DEPLOYMENT_NOT_FOUND."
+      ],
+      "target_nxdomain": false,
+      "status": "edge_case",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "webflow",
+      "service": "Webflow",
+      "cname_suffixes": [],
+      "cname_exact": [
+        "proxy.webflow.com",
+        "proxy-ssl.webflow.com"
+      ],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "The page you are looking for doesn't exist or has been moved."
+      ],
+      "target_nxdomain": false,
+      "status": "edge_case",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "wishpond",
+      "service": "Wishpond",
+      "cname_suffixes": [
+        "wishpond.com"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "https://www.wishpond.com/404?campaign=true"
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    },
+    {
+      "id": "wix",
+      "service": "Wix",
+      "cname_suffixes": [
+        "wixdns.net"
+      ],
+      "cname_exact": [],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "Looks Like This Domain Isn't Connected To A Website Yet!"
+      ],
+      "target_nxdomain": false,
+      "status": "edge_case",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json"
+    },
+    {
+      "id": "wufoo",
+      "service": "Wufoo",
+      "cname_suffixes": [],
+      "cname_exact": [
+        "www.wufoo.com",
+        "subdomain.wufoo.com",
+        "hello.wufoo.com",
+        "pizzapalace.wufoo.com"
+      ],
+      "a_records": [],
+      "aaaa_records": [],
+      "http_statuses": [],
+      "body_substrings": [
+        "Hmmm....something is not right."
+      ],
+      "target_nxdomain": false,
+      "status": "vulnerable",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json"
+    }
+  ]
+}
