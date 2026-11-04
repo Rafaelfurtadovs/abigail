@@ -34,6 +34,31 @@ claim a cloud resource, modify DNS, or exploit a target.
 
 No administrator privileges are required. Run Abigail as an ordinary user.
 
+## Download a release without Go
+
+Download the archive for your system and `SHA256SUMS` from the
+[v0.1.0 release](https://github.com/Rafaelfurtadovs/abigail/releases/tag/v0.1.0):
+
+| System | Archive |
+| --- | --- |
+| macOS, Apple Silicon | `abigail_v0.1.0_darwin_arm64.tar.gz` |
+| macOS, Intel | `abigail_v0.1.0_darwin_amd64.tar.gz` |
+| Linux, x86-64 | `abigail_v0.1.0_linux_amd64.tar.gz` |
+| Linux, ARM64 | `abigail_v0.1.0_linux_arm64.tar.gz` |
+
+Check your archive's digest against its entry in `SHA256SUMS` with
+`shasum -a 256 ARCHIVE` on macOS or `sha256sum ARCHIVE` on Linux. Then run:
+
+```sh
+mkdir abigail-release
+tar -xzf ARCHIVE -C abigail-release
+./abigail-release/abigail version
+```
+
+Replace `ARCHIVE` with the downloaded filename. The macOS archives are not
+Apple signed or notarized; building from source below is available if your
+device policy does not allow unsigned downloads.
+
 ## Build on macOS and Linux
 
 1. Install Go from the [official Go downloads page](https://go.dev/dl/) and
@@ -193,8 +218,10 @@ step fail unless the caller handles exit code `1` deliberately.
    Abigail queries the specified DNS server directly and can inspect the full
    CNAME chain and NXDOMAIN responses.
 2. It selects provider rules that match DNS evidence.
-3. For a candidate, it requests the hostname over HTTP(S) when the rule needs
-   a response status or body fingerprint.
+3. For a candidate, it requests the hostname over HTTPS when the rule needs
+   a response status or body fingerprint. If HTTPS fails, it retries over
+   HTTP and records which URL supplied the evidence. TLS certificate checks
+   remain enabled; redirects are not followed.
 4. It reports the evidence and the highest justified outcome. Missing or
    contradictory evidence is reported explicitly.
 
