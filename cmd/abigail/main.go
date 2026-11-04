@@ -8,6 +8,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"math"
 	"net"
 	"os"
 	"os/signal"
@@ -20,22 +21,26 @@ import (
 	"github.com/Rafaelfurtadovs/abigail/internal/httpprobe"
 	"github.com/Rafaelfurtadovs/abigail/internal/ruleengine"
 	"github.com/Rafaelfurtadovs/abigail/internal/scanner"
+	"github.com/Rafaelfurtadovs/abigail/internal/validators"
 	"github.com/Rafaelfurtadovs/abigail/rules"
 )
 
-const version = "0.1.0"
+const version = "0.2.0"
 
 type config struct {
-	domain           string
-	list             string
-	output           string
-	format           string
-	rulesPath        string
-	resolver         string
-	concurrency      int
-	rate             int
-	timeout          time.Duration
-	includeEdgeCases bool
+	domain            string
+	list              string
+	output            string
+	format            string
+	rulesPath         string
+	resolver          string
+	concurrency       int
+	rate              int
+	timeout           time.Duration
+	includeEdgeCases  bool
+	excludeEdgeCases  bool
+	validate          bool
+	azureSubscription string
 }
 
 func main() { os.Exit(run(os.Args[1:], os.Stdout, os.Stderr)) }
@@ -84,7 +89,10 @@ func scanCommand(args []string, stdout, stderr io.Writer) int {
 	flags.IntVar(&cfg.concurrency, "concurrency", 20, "maximum domains checked in parallel (1-256)")
 	flags.IntVar(&cfg.rate, "rate", 20, "maximum domains started per second; 0 disables pacing")
 	flags.DurationVar(&cfg.timeout, "timeout", 5*time.Second, "timeout for individual DNS/HTTP requests")
-	flags.BoolVar(&cfg.includeEdgeCases, "include-edge-cases", false, "include lower-confidence provider rules")
+	flags.BoolVar(&cfg.includeEdgeCases, "include-edge-cases", true, "include lower-confidence provider rules (default; compatibility flag)")
+	flags.BoolVar(&cfg.excludeEdgeCases, "exclude-edge-cases", false, "exclude lower-confidence provider rules")
+	flags.BoolVar(&cfg.validate, "validate", false, "check supported provider names through AWS/Azure APIs after signature matching")
+	flags.StringVar(&cfg.azureSubscription, "azure-subscription", os.Getenv("AZURE_SUBSCRIPTION_ID"), "Azure subscription ID for --validate (or AZURE_SUBSCRIPTION_ID)")
 	flags.Usage = func() {
 		fmt.Fprintln(stderr, "Usage: abigail scan (-d hostname | -l file) [options]")
 		flags.PrintDefaults()
@@ -106,6 +114,9 @@ func scanCommand(args []string, stdout, stderr io.Writer) int {
 	if cfg.concurrency < 1 || cfg.concurrency > 256 || cfg.rate < 0 || cfg.rate > 10000 || cfg.timeout <= 0 {
 		fmt.Fprintln(stderr, "invalid concurrency, rate or timeout")
 		return 2
+	}
+	if cfg.excludeEdgeCases {
+		cfg.includeEdgeCases = false
 	}
 
 	var data []byte
@@ -258,7 +269,13 @@ func execute(ctx context.Context, cfg config, domains []string, pack ruleengine.
 		Rules:            pack.Rules,
 		DNSOptions:       dnsprobe.Options{Resolver: cfg.resolver, MaxDepth: 12, Timeout: cfg.timeout},
 		HTTP:             probe,
+		Validator:        validators.Router{AzureSubscriptionID: cfg.azureSubscription},
+		Validate:         cfg.validate,
 		IncludeEdgeCases: cfg.includeEdgeCases,
+	}
+	jobTimeout := cfg.timeout
+	if multiplier := time.Duration(engine.DNSOptions.MaxDepth + 8); jobTimeout <= time.Duration(math.MaxInt64)/multiplier {
+		jobTimeout *= multiplier
 	}
 	type job struct{ domain string }
 	jobs := make(chan job)
@@ -269,7 +286,10 @@ func execute(ctx context.Context, cfg config, domains []string, pack ruleengine.
 		go func() {
 			defer workers.Done()
 			for item := range jobs {
-				jobCtx, cancel := context.WithTimeout(ctx, cfg.timeout*3)
+				// The per-request timeout also applies to every CNAME hop,
+				// address lookup, HTTP request and optional provider check.
+				// Leave enough time for a complete chain while bounding a job.
+				jobCtx, cancel := context.WithTimeout(ctx, jobTimeout)
 				result := engine.Scan(jobCtx, item.domain)
 				cancel()
 				select {
@@ -325,6 +345,8 @@ func execute(ctx context.Context, cfg config, domains []string, pack ruleengine.
 			writeErr = encoder.Encode(result)
 		} else if result.Status == "unknown" {
 			_, writeErr = fmt.Fprintf(output, "[unknown] %s: %s\n", result.Domain, strings.Join(result.Errors, "; "))
+		} else if result.Status == "dismissed" {
+			_, writeErr = fmt.Fprintf(output, "[dismissed] %s: provider API reports the matched name unavailable\n", result.Domain)
 		} else {
 			for _, finding := range result.Findings {
 				_, writeErr = fmt.Fprintf(output, "[%s] %s %s (%s: %s)\n", finding.Verdict, result.Domain, finding.Service, finding.DNS[0].Record, finding.DNS[0].Value)
@@ -334,12 +356,12 @@ func execute(ctx context.Context, cfg config, domains []string, pack ruleengine.
 			}
 		}
 	}
-	fmt.Fprintf(stderr, "Scanned %d: %d candidate, %d edge case, %d unknown, %d no signature\n",
-		len(domains), counts["candidate"], counts["edge_case"], counts["unknown"], counts["clean"])
+	fmt.Fprintf(stderr, "Scanned %d: %d validated, %d candidate, %d edge case, %d dismissed, %d unknown, %d no signature\n",
+		len(domains), counts["validated"], counts["candidate"], counts["edge_case"], counts["dismissed"], counts["unknown"], counts["clean"])
 	if writeErr != nil || counts["unknown"] > 0 {
 		return 2, writeErr
 	}
-	if counts["candidate"]+counts["edge_case"] > 0 {
+	if counts["validated"]+counts["candidate"]+counts["edge_case"] > 0 {
 		return 1, nil
 	}
 	return 0, nil

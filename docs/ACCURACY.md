@@ -13,12 +13,13 @@ public report; publish anonymized case IDs and sufficient non-sensitive
 evidence to reproduce the classification.
 
 For each case, record the provider, DNS records and CNAME chain, HTTP status
-and relevant response fragment, observation time, and **ground truth**:
+and relevant response fragment for **both HTTPS and HTTP**, observation time,
+and **ground truth**:
 
 - **Positive:** a controlled, owned test setup demonstrates that the referenced
-  resource can be re-registered, or a safe provider availability API together
-  with documented ownership rules establishes that result. Never claim
-  someone else's resource.
+  resource can be re-registered, or independent provider evidence establishes
+  the same result. An API response used by the scanner is not sufficient as
+  the sole ground-truth source. Never claim someone else's resource.
 - **Negative:** an owned, active resource or a provider check confirms the
   reference cannot be claimed. Include error pages and CNAMEs that resemble
   positive fingerprints.
@@ -37,7 +38,10 @@ before looking at either scanner's verdict.
 
 Publish the Abigail and comparator commit or release, binary SHA-256 values,
 rule-pack revision or SHA-256, corpus revision, observation date, OS and
-architecture, DNS resolver, timeout, concurrency, and any rate limit. Use the
+architecture, DNS resolver, timeout, concurrency, any rate limit, and whether
+provider validation was enabled. Record the operating system's HTTP name
+resolution route separately from Abigail's `--resolver`: in split-DNS
+environments they can see different targets. Use the
 same hostname list and equivalent scan settings. Run each tool on the same
 network within a short time window, because DNS and provider state can change.
 Randomize tool order across repetitions and report both cold and warm runs if
@@ -47,11 +51,15 @@ review; publish a redacted per-case verdict table and the evaluation script.
 ## Score outcomes
 
 Map each tool's output to **positive**, **negative**, or **unknown** before
-computing metrics. For Abigail, `candidate` and `edge_case` are positive
-alerts at separate confidence tiers; `clean` is a negative scanner output,
-not proof that the target is safe; and `unknown` stays unknown. Do not count
-an unknown as a true negative. Apply an equivalent published mapping to the
-comparator's output, including errors and unsupported cases.
+computing metrics. For Abigail, `validated`, `candidate`, and `edge_case` are
+positive alerts at separate confidence tiers; `clean` and `dismissed` are
+negative scanner outputs, not proof that the target is safe; and `unknown`
+stays unknown. A finding with `validation.state=unavailable` appears under
+`dismissed` rather than active `findings`; review those cases separately for
+false dismissal.
+Validation states `unknown` and `unsupported` do not establish a negative.
+Do not count an unknown scan as a true negative. Apply an equivalent published
+mapping to the comparator's output, including errors and unsupported cases.
 
 On cases with positive or negative ground truth, report the full confusion
 matrix: true positives (TP), false positives (FP), false negatives (FN), and
@@ -63,10 +71,18 @@ true negatives (TN). Report:
 - **Unknown rate:** unknown outputs divided by all evaluated cases, separately
   for positive and negative ground truth.
 - **Coverage:** providers and cases for which each tool has an applicable rule.
+- **Validation availability:** counts of `available`, `unavailable`, `unknown`,
+  and `unsupported` by provider when direct validation is enabled.
 
 Show counts as well as percentages, both overall and per provider. Report
-metrics with `edge_case` included and excluded. For small samples, include
-confidence intervals and avoid ranking tools on a tiny difference.
+metrics separately for fingerprint-only and validation-enabled scans, and with
+`edge_case` included and excluded. A provider with no direct validator must
+not be treated as validation-negative. For small samples, include confidence
+intervals and avoid ranking tools on a tiny difference.
+
+Report DigitalOcean findings marked `delegation_unresolved` separately from
+observed NXDOMAIN cases. Parent-authoritative delegation plus a failed child
+lookup is incomplete evidence; it is not proof that the name is claimable.
 
 ## Measure performance
 

@@ -20,38 +20,47 @@ const (
 	maxAnswers      = 256
 )
 
-// Options controls resolution. An empty Resolver uses the Go system resolver,
-// which is preferable on macOS networks with VPN or split DNS. A specified
-// Resolver uses direct DNS queries and preserves each CNAME hop.
+// Options controls resolution. An empty Resolver selects DNS servers from the
+// OS configuration when the route is unambiguous. Otherwise it falls back to
+// the Go system resolver with incomplete-chain evidence. A specified Resolver
+// uses direct DNS queries and preserves each CNAME hop.
 type Options struct {
 	Resolver string
 	MaxDepth int
 	Timeout  time.Duration
+	CheckNS  bool
 
 	// SystemResolver is intended for deterministic tests. Nil uses
 	// net.DefaultResolver. It is ignored when Resolver is set.
 	SystemResolver *net.Resolver
+
+	// authoritativePort is a test hook for local parent-authority fixtures.
+	// Production DNS authorities always use port 53.
+	authoritativePort string
 }
 
 // Result contains normalized DNS facts. CNAMEChain lists CNAME targets in
 // resolution order; it does not include Query. In system mode, the operating
 // system may expose only the final canonical name, so ChainComplete is false.
 type Result struct {
-	Query         string   `json:"query"`
-	CNAMEChain    []string `json:"cname_chain,omitempty"`
-	A             []string `json:"a,omitempty"`
-	AAAA          []string `json:"aaaa,omitempty"`
-	FinalName     string   `json:"final_name"`
-	NXDomain      bool     `json:"nxdomain"`
-	ChainComplete bool     `json:"chain_complete"`
-	Errors        []string `json:"errors,omitempty"`
+	Query            string   `json:"query"`
+	CNAMEChain       []string `json:"cname_chain,omitempty"`
+	A                []string `json:"a,omitempty"`
+	AAAA             []string `json:"aaaa,omitempty"`
+	NS               []string `json:"ns,omitempty"`
+	NSParentVerified bool     `json:"ns_parent_verified,omitempty"`
+	FinalName        string   `json:"final_name"`
+	NXDomain         bool     `json:"nxdomain"`
+	ChainComplete    bool     `json:"chain_complete"`
+	Warnings         []string `json:"warnings,omitempty"`
+	Errors           []string `json:"errors,omitempty"`
 }
 
 // Resolve resolves one hostname. It returns partial evidence and explanatory
 // errors when DNS fails; callers must not interpret an errored result as safe.
 func Resolve(ctx context.Context, hostname string, opts Options) Result {
 	name := normalizeName(hostname)
-	result := Result{Query: name, FinalName: name, CNAMEChain: []string{}, A: []string{}, AAAA: []string{}, Errors: []string{}}
+	result := Result{Query: name, FinalName: name, CNAMEChain: []string{}, A: []string{}, AAAA: []string{}, NS: []string{}, Errors: []string{}}
 	if name == "" {
 		result.Errors = append(result.Errors, "empty hostname")
 		return result
@@ -71,6 +80,14 @@ func Resolve(ctx context.Context, hostname string, opts Options) Result {
 		opts.Timeout = defaultTimeout
 	}
 	if opts.Resolver == "" {
+		if opts.SystemResolver == nil {
+			servers, reason := systemDNSServers(ctx, name)
+			if len(servers) > 0 {
+				result.ChainComplete = true
+				return resolveDirect(ctx, result, servers, opts)
+			}
+			result.Warnings = append(result.Warnings, reason)
+		}
 		return resolveSystem(ctx, result, opts)
 	}
 	result.ChainComplete = true
@@ -79,7 +96,7 @@ func Resolve(ctx context.Context, hostname string, opts Options) Result {
 		result.Errors = append(result.Errors, err.Error())
 		return result
 	}
-	return resolveDirect(ctx, result, address, opts)
+	return resolveDirect(ctx, result, []string{address}, opts)
 }
 
 func resolveSystem(parent context.Context, result Result, opts Options) Result {
@@ -89,6 +106,16 @@ func resolveSystem(parent context.Context, result Result, opts Options) Result {
 	}
 	ctx, cancel := context.WithTimeout(parent, opts.Timeout)
 	defer cancel()
+	if opts.CheckNS {
+		nameservers, err := resolver.LookupNS(ctx, result.Query)
+		if err != nil && !isNotFound(err) {
+			result.Warnings = append(result.Warnings, fmt.Sprintf("optional NS lookup: %v", err))
+		}
+		for _, record := range nameservers {
+			result.NS = append(result.NS, normalizeName(record.Host))
+		}
+		result.NS = sortedUnique(result.NS)
+	}
 
 	canonical, err := resolver.LookupCNAME(ctx, result.Query)
 	if err != nil {
@@ -132,70 +159,98 @@ func resolveSystem(parent context.Context, result Result, opts Options) Result {
 	return result
 }
 
-func resolveDirect(ctx context.Context, result Result, server string, opts Options) Result {
+func resolveDirect(ctx context.Context, result Result, servers []string, opts Options) Result {
+	attemptedParentNS := false
+	if opts.CheckNS {
+		response, err := exchange(ctx, result.Query, dns.TypeNS, servers, opts.Timeout)
+		if err != nil {
+			result.Warnings = append(result.Warnings, fmt.Sprintf("optional NS lookup for %s: %v", result.Query, err))
+			attemptedParentNS = true
+			recoverParentNS(ctx, &result, servers, opts)
+		} else {
+			// Recursive resolvers can put a parent's delegation in the
+			// authority section rather than the answer section. Only NS
+			// records owned by the exact queried name are relevant.
+			result.NS = exactNSRecords(response, result.Query)
+		}
+	}
 	current := result.Query
 	visited := map[string]struct{}{current: {}}
-	for depth := 0; depth <= opts.MaxDepth; depth++ {
-		response, err := exchange(ctx, current, dns.TypeCNAME, server, opts.Timeout)
+	for depth := 0; depth <= opts.MaxDepth; {
+		response, err := exchange(ctx, current, dns.TypeCNAME, servers, opts.Timeout)
 		if err != nil {
 			result.ChainComplete = false
 			result.Errors = append(result.Errors, fmt.Sprintf("CNAME lookup for %s: %v", current, err))
+			if opts.CheckNS && len(result.NS) == 0 && !attemptedParentNS {
+				recoverParentNS(ctx, &result, servers, opts)
+			}
 			return result
+		}
+		matched := false
+		// A recursive resolver may return a CNAME chain and NXDOMAIN for
+		// its final target in the *same* response. Process all chained
+		// CNAMEs before interpreting the response code.
+		for {
+			targets := make([]string, 0, 1)
+			for _, answer := range response.Answer {
+				record, ok := answer.(*dns.CNAME)
+				if ok && normalizeName(record.Hdr.Name) == current {
+					targets = append(targets, normalizeName(record.Target))
+				}
+			}
+			if len(targets) == 0 {
+				break
+			}
+			sort.Strings(targets)
+			if len(targets) > 1 && targets[0] != targets[len(targets)-1] {
+				result.ChainComplete = false
+				result.Errors = append(result.Errors, fmt.Sprintf("conflicting CNAME targets for %s", current))
+				return result
+			}
+			next := targets[0]
+			if next == "" {
+				result.ChainComplete = false
+				result.Errors = append(result.Errors, fmt.Sprintf("empty CNAME target for %s", current))
+				return result
+			}
+			if depth == opts.MaxDepth {
+				result.ChainComplete = false
+				result.Errors = append(result.Errors, fmt.Sprintf("CNAME chain exceeded maximum depth %d", opts.MaxDepth))
+				return result
+			}
+			if _, exists := visited[next]; exists {
+				result.ChainComplete = false
+				result.Errors = append(result.Errors, fmt.Sprintf("CNAME loop at %s", next))
+				return result
+			}
+			visited[next] = struct{}{}
+			result.CNAMEChain = append(result.CNAMEChain, next)
+			result.FinalName = next
+			current = next
+			depth++
+			matched = true
 		}
 		if response.Rcode == dns.RcodeNameError {
 			result.NXDomain = true
 			result.FinalName = current
 			return result
 		}
-		targets := make([]string, 0, 1)
-		for _, answer := range response.Answer {
-			record, ok := answer.(*dns.CNAME)
-			if ok && normalizeName(record.Hdr.Name) == current {
-				targets = append(targets, normalizeName(record.Target))
-			}
-		}
-		if len(targets) == 0 {
+		if !matched {
 			result.FinalName = current
-			resolveAddresses(ctx, &result, current, server, opts.Timeout)
+			resolveAddresses(ctx, &result, current, servers, opts.Timeout)
 			return result
 		}
-		sort.Strings(targets)
-		if len(targets) > 1 && targets[0] != targets[len(targets)-1] {
-			result.ChainComplete = false
-			result.Errors = append(result.Errors, fmt.Sprintf("conflicting CNAME targets for %s", current))
-			return result
-		}
-		next := targets[0]
-		if next == "" {
-			result.ChainComplete = false
-			result.Errors = append(result.Errors, fmt.Sprintf("empty CNAME target for %s", current))
-			return result
-		}
-		if depth == opts.MaxDepth {
-			result.ChainComplete = false
-			result.Errors = append(result.Errors, fmt.Sprintf("CNAME chain exceeded maximum depth %d", opts.MaxDepth))
-			return result
-		}
-		if _, exists := visited[next]; exists {
-			result.ChainComplete = false
-			result.Errors = append(result.Errors, fmt.Sprintf("CNAME loop at %s", next))
-			return result
-		}
-		visited[next] = struct{}{}
-		result.CNAMEChain = append(result.CNAMEChain, next)
-		result.FinalName = next
-		current = next
 	}
 	return result // The loop always returns from one of the branches above.
 }
 
-func resolveAddresses(ctx context.Context, result *Result, name, server string, timeout time.Duration) {
+func resolveAddresses(ctx context.Context, result *Result, name string, servers []string, timeout time.Duration) {
 	for _, question := range []struct {
 		qtype uint16
 		label string
 		out   *[]string
 	}{{dns.TypeA, "A", &result.A}, {dns.TypeAAAA, "AAAA", &result.AAAA}} {
-		response, err := exchange(ctx, name, question.qtype, server, timeout)
+		response, err := exchange(ctx, name, question.qtype, servers, timeout)
 		if err != nil {
 			result.Errors = append(result.Errors, fmt.Sprintf("%s lookup for %s: %v", question.label, name, err))
 			continue
@@ -225,35 +280,44 @@ func resolveAddresses(ctx context.Context, result *Result, name, server string, 
 	}
 }
 
-func exchange(ctx context.Context, name string, qtype uint16, server string, timeout time.Duration) (*dns.Msg, error) {
+func exchange(ctx context.Context, name string, qtype uint16, servers []string, timeout time.Duration) (*dns.Msg, error) {
+	return exchangeWithRD(ctx, name, qtype, servers, timeout, true)
+}
+
+func exchangeWithRD(ctx context.Context, name string, qtype uint16, servers []string, timeout time.Duration, recursionDesired bool) (*dns.Msg, error) {
 	query := new(dns.Msg)
 	query.SetQuestion(dns.Fqdn(name), qtype)
+	query.RecursionDesired = recursionDesired
 	query.SetEdns0(1232, false)
-	client := &dns.Client{Net: "udp", Timeout: timeout}
-	response, _, err := client.ExchangeContext(ctx, query, server)
-	if err != nil {
-		return nil, err
-	}
-	if response == nil {
-		return nil, errors.New("empty DNS response")
-	}
-	if response.Truncated {
-		client.Net = "tcp"
-		response, _, err = client.ExchangeContext(ctx, query, server)
-		if err != nil {
-			return nil, err
+	var failures []string
+	for _, server := range servers {
+		client := &dns.Client{Net: "udp", Timeout: timeout}
+		response, _, err := client.ExchangeContext(ctx, query, server)
+		if err == nil && response == nil {
+			err = errors.New("empty DNS response")
 		}
-		if response == nil || response.Truncated {
-			return nil, errors.New("incomplete TCP DNS response")
+		if err == nil && response.Truncated {
+			client.Net = "tcp"
+			response, _, err = client.ExchangeContext(ctx, query, server)
+			if err == nil && (response == nil || response.Truncated) {
+				err = errors.New("incomplete TCP DNS response")
+			}
+		}
+		if err == nil && len(response.Answer) > maxAnswers {
+			err = fmt.Errorf("DNS response exceeded %d answers", maxAnswers)
+		}
+		if err == nil && response.Rcode != dns.RcodeSuccess && response.Rcode != dns.RcodeNameError {
+			err = fmt.Errorf("DNS response: %s", dns.RcodeToString[response.Rcode])
+		}
+		if err == nil {
+			return response, nil
+		}
+		failures = append(failures, fmt.Sprintf("%s: %v", server, err))
+		if ctx.Err() != nil {
+			break
 		}
 	}
-	if len(response.Answer) > maxAnswers {
-		return nil, fmt.Errorf("DNS response exceeded %d answers", maxAnswers)
-	}
-	if response.Rcode != dns.RcodeSuccess && response.Rcode != dns.RcodeNameError {
-		return nil, fmt.Errorf("DNS response: %s", dns.RcodeToString[response.Rcode])
-	}
-	return response, nil
+	return nil, errors.New(strings.Join(failures, "; "))
 }
 
 func resolverAddress(value string) (string, error) {

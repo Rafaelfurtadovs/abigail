@@ -108,6 +108,31 @@ func TestResolveDirectNXDomainAfterCNAME(t *testing.T) {
 	}
 }
 
+func TestResolveDirectCNAMEAndNXDomainInSameResponse(t *testing.T) {
+	server := startTestDNS(t, func(w dns.ResponseWriter, request *dns.Msg) {
+		response := new(dns.Msg)
+		response.SetRcode(request, dns.RcodeNameError)
+		for _, raw := range []string{
+			"a.example.test. 60 IN CNAME b.example.test.",
+			"b.example.test. 60 IN CNAME gone.provider.test.",
+		} {
+			record, err := dns.NewRR(raw)
+			if err != nil {
+				t.Errorf("invalid fixture: %v", err)
+				return
+			}
+			response.Answer = append(response.Answer, record)
+		}
+		if err := w.WriteMsg(response); err != nil {
+			t.Errorf("write DNS answer: %v", err)
+		}
+	})
+	result := Resolve(context.Background(), "a.example.test", Options{Resolver: server})
+	if !result.NXDomain || !result.ChainComplete || result.FinalName != "gone.provider.test" || strings.Join(result.CNAMEChain, ",") != "b.example.test,gone.provider.test" || len(result.Errors) != 0 {
+		t.Fatalf("CNAME evidence was lost in combined NXDOMAIN response: %+v", result)
+	}
+}
+
 func TestResolveDirectNoDataIsNotNXDomain(t *testing.T) {
 	server := startTestDNS(t, func(w dns.ResponseWriter, request *dns.Msg) {
 		noData(t, w, request)
@@ -115,6 +140,94 @@ func TestResolveDirectNoDataIsNotNXDomain(t *testing.T) {
 	result := Resolve(context.Background(), "empty.example.test", Options{Resolver: server})
 	if result.NXDomain || !result.ChainComplete || len(result.Errors) != 0 || len(result.A) != 0 || len(result.AAAA) != 0 {
 		t.Fatalf("NOERROR without addresses must not become NXDOMAIN: %+v", result)
+	}
+}
+
+func TestResolveDirectCapturesExactDelegationFromAuthority(t *testing.T) {
+	server := startTestDNS(t, func(w dns.ResponseWriter, request *dns.Msg) {
+		if request.Question[0].Qtype != dns.TypeNS {
+			noData(t, w, request)
+			return
+		}
+		response := new(dns.Msg)
+		response.SetReply(request)
+		for _, raw := range []string{
+			"sub.example.test. 60 IN NS ns2.provider.test.",
+			"sub.example.test. 60 IN NS ns1.provider.test.",
+			"example.test. 60 IN NS irrelevant.example.test.",
+		} {
+			record, err := dns.NewRR(raw)
+			if err != nil {
+				t.Errorf("invalid fixture: %v", err)
+				return
+			}
+			response.Ns = append(response.Ns, record)
+		}
+		if err := w.WriteMsg(response); err != nil {
+			t.Errorf("write DNS answer: %v", err)
+		}
+	})
+	result := Resolve(context.Background(), "sub.example.test", Options{Resolver: server, CheckNS: true})
+	if got := strings.Join(result.NS, ","); got != "ns1.provider.test,ns2.provider.test" {
+		t.Fatalf("unexpected delegation NS records: %+v", result)
+	}
+}
+
+func TestResolveDirectRecoversParentDelegationAfterServfail(t *testing.T) {
+	server := startTestDNS(t, func(w dns.ResponseWriter, request *dns.Msg) {
+		q := request.Question[0]
+		if request.RecursionDesired {
+			switch {
+			case q.Name == "sub.example.test." && (q.Qtype == dns.TypeNS || q.Qtype == dns.TypeCNAME):
+				response := new(dns.Msg)
+				response.SetRcode(request, dns.RcodeServerFailure)
+				_ = w.WriteMsg(response)
+			case q.Name == "example.test." && q.Qtype == dns.TypeNS:
+				answer(t, w, request, "example.test. 60 IN NS ns.example.test.")
+			case q.Name == "ns.example.test." && q.Qtype == dns.TypeA:
+				answer(t, w, request, "ns.example.test. 60 IN A 127.0.0.1")
+			default:
+				noData(t, w, request)
+			}
+			return
+		}
+		response := new(dns.Msg)
+		response.SetReply(request)
+		response.Authoritative = q.Name == "example.test."
+		switch {
+		case q.Name == "example.test." && q.Qtype == dns.TypeSOA:
+			rr, _ := dns.NewRR("example.test. 60 IN SOA ns.example.test. hostmaster.example.test. 1 3600 600 86400 60")
+			response.Answer = append(response.Answer, rr)
+		case q.Name == "sub.example.test." && q.Qtype == dns.TypeNS:
+			rr, _ := dns.NewRR("sub.example.test. 60 IN NS ns1.digitalocean.com.")
+			response.Ns = append(response.Ns, rr)
+		}
+		_ = w.WriteMsg(response)
+	})
+	_, port, err := net.SplitHostPort(server)
+	if err != nil {
+		t.Fatal(err)
+	}
+	result := Resolve(context.Background(), "sub.example.test", Options{Resolver: server, CheckNS: true, Timeout: time.Second, authoritativePort: port})
+	if !result.NSParentVerified || strings.Join(result.NS, ",") != "ns1.digitalocean.com" || result.NXDomain {
+		t.Fatalf("parent delegation not recovered: %+v", result)
+	}
+}
+
+func TestResolveDirectNameservers(t *testing.T) {
+	server := startTestDNS(t, func(w dns.ResponseWriter, request *dns.Msg) {
+		if request.Question[0].Qtype == dns.TypeNS {
+			answer(t, w, request, "zone.example.test. 60 IN NS ns2.digitalocean.com.", "zone.example.test. 60 IN NS ns1.digitalocean.com.")
+			return
+		}
+		answer(t, w, request)
+	})
+	result := Resolve(context.Background(), "zone.example.test", Options{Resolver: server, CheckNS: true})
+	if got := strings.Join(result.NS, ","); got != "ns1.digitalocean.com,ns2.digitalocean.com" {
+		t.Fatalf("unexpected nameservers: %q", got)
+	}
+	if len(result.Errors) != 0 {
+		t.Fatalf("unexpected errors: %v", result.Errors)
 	}
 }
 

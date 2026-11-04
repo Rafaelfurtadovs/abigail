@@ -1,0 +1,1125 @@
+{
+  "schema_version": 1,
+  "reference": {
+    "edoverflow_commit": "5bd4e12837911c8475486f1da922c9b9c706e632",
+    "subdominator_commit": "9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0",
+    "scope": "Services loaded by Subdominator after status overrides and custom additions; service identities, not proven claimability or match quality"
+  },
+  "counts": {
+    "subdominator_services": 97,
+    "abigail_mapped_services": 97,
+    "abigail_rules": 97,
+    "unmapped_services": 0
+  },
+  "services": [
+    {
+      "upstream_service": "Acquia",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "acquia",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": [
+        "Subdominator promotes upstream Not vulnerable to edge case in code"
+      ]
+    },
+    {
+      "upstream_service": "ActiveCampaign",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "activecampaign",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Aftership",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "aftership",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Agile CRM",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "agile-crm",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Aha",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "aha",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Airee.ru",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "airee-ru",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Amazon Cognito",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "amazon-cognito",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "nxdomain",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Anima",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "anima",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Announcekit",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "announcekit",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Apigee",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "apigee",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "nxdomain",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Appery.io",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "appery-io",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "AWS/Elastic Beanstalk",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "aws-elastic-beanstalk",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "nxdomain",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "AWS/S3",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "aws-s3",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Better Uptime",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "better-uptime",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "status_only",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": [
+        "Abigail downgrades status-only evidence to edge_case"
+      ]
+    },
+    {
+      "upstream_service": "BigCartel",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "bigcartel",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Bitbucket",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "bitbucket",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Branch.io",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "branch-io",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Brandpad",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "brandpad",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Brightcove",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "brightcove",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Bubble.io",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "bubble-io",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "status_only",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": [
+        "Abigail downgrades status-only evidence to edge_case"
+      ]
+    },
+    {
+      "upstream_service": "Campaign Monitor",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "campaign-monitor",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "Canny",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "canny",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "Cargo Collective",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "cargo-collective",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "ConvertKit",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "convertkit",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname_or_ip",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "DatoCMS.com",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "datocms-com",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": [
+        "Abigail applies a conservative confidence downgrade"
+      ]
+    },
+    {
+      "upstream_service": "Digital Ocean",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "digital-ocean",
+      "abigail_status": "edge_case",
+      "dns_mode": "ns",
+      "evidence_mode": "nxdomain",
+      "source": "https://docs.digitalocean.com/products/networking/dns/details/features/",
+      "notes": [
+        "Abigail applies a conservative confidence downgrade"
+      ]
+    },
+    {
+      "upstream_service": "Discourse",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "discourse",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "nxdomain",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Fastly",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "fastly",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": [
+        "Subdominator promotes upstream Not vulnerable to edge case in code"
+      ]
+    },
+    {
+      "upstream_service": "Flexbe",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "flexbe",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Flywheel",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "flywheel",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Frontify",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "frontify",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "Gemfury",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "gemfury",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "GetCloudApp",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "getcloudapp",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "status_only",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": [
+        "Abigail downgrades status-only evidence to edge_case"
+      ]
+    },
+    {
+      "upstream_service": "Getresponse",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "getresponse",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": [
+        "Abigail applies a conservative confidence downgrade"
+      ]
+    },
+    {
+      "upstream_service": "Ghost",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "ghost",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "Gitbook",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "gitbook",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Github",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "github-pages",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": [
+        "Displayed as GitHub Pages in Abigail"
+      ]
+    },
+    {
+      "upstream_service": "HatenaBlog",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "hatenablog",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Help Juice",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "help-juice",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Help Scout",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "help-scout",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Helprace",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "helprace",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "status_only",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": [
+        "Abigail downgrades status-only evidence to edge_case"
+      ]
+    },
+    {
+      "upstream_service": "Heroku",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "heroku",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Instapage",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "instapage",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": [
+        "Subdominator promotes upstream Not vulnerable to edge case in code"
+      ]
+    },
+    {
+      "upstream_service": "Intercom",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "intercom",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "JazzHR",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "jazzhr",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "JetBrains",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "jetbrains",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Kajabi",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "kajabi",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Landingi",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "landingi",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "LaunchRock",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "launchrock",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "status_only",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": [
+        "Abigail downgrades status-only evidence to edge_case"
+      ]
+    },
+    {
+      "upstream_service": "LeadPages.com",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "leadpages-com",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Mashery",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "mashery",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "Meteor Cloud (Galaxy)",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "meteor-cloud-galaxy",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "status_only",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": [
+        "Abigail downgrades status-only evidence to edge_case"
+      ]
+    },
+    {
+      "upstream_service": "Microsoft Azure",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "microsoft-azure",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "nxdomain",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "Netlify",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "netlify",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Ngrok",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "ngrok",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "Pagewiz",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "pagewiz",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": [
+        "Abigail applies a conservative confidence downgrade"
+      ]
+    },
+    {
+      "upstream_service": "Pantheon",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "pantheon",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "Pingdom",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "pingdom",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "Proposify",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "proposify",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Readme.io",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "readme-io",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Readthedocs",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "readthedocs",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "Refined",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "refined",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "nxdomain",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Shopify",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "shopify",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Short.io",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "short-io",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "SimpleBooklet",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "simplebooklet",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "SmartJobBoard",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "smartjobboard",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname_or_ip",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Smartling",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "smartling",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "Smugsmug",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "smugsmug",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "nxdomain",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "Softr",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "softr",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname_or_ip",
+      "evidence_mode": "status_only",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": [
+        "Abigail downgrades status-only evidence to edge_case"
+      ]
+    },
+    {
+      "upstream_service": "Sprintful",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "sprintful",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Strikingly",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "strikingly",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Surge.sh",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "surge-sh",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Surveygizmo",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "surveygizmo",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "SurveySparrow",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "surveysparrow",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Tave",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "tave",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Teamwork",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "teamwork",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Thinkific",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "thinkific",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Tictail",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "tictail",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Tilda",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "tilda",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "Tribe",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "tribe",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Tumblr",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "tumblr",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "Uberflip",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "uberflip",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Unbounce",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "unbounce",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": [
+        "Subdominator promotes upstream Not vulnerable to edge case in code"
+      ]
+    },
+    {
+      "upstream_service": "Uptimerobot",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "uptimerobot",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "UseResponse",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "useresponse",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "status_only",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": [
+        "Abigail downgrades status-only evidence to edge_case"
+      ]
+    },
+    {
+      "upstream_service": "UserVoice",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "uservoice",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": [
+        "Subdominator promotes upstream Not vulnerable to edge case in code"
+      ]
+    },
+    {
+      "upstream_service": "Vend",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "vend",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Vercel",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "vercel",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Webflow",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "webflow",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Wishpond",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "wishpond",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Wix",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "wix",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Wordpress",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "wordpress",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
+      "notes": []
+    },
+    {
+      "upstream_service": "Worksites",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "worksites",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname_or_ip",
+      "evidence_mode": "body",
+      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Wufoo",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "wufoo",
+      "abigail_status": "vulnerable",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": []
+    },
+    {
+      "upstream_service": "Zendesk",
+      "upstream_catalog": "EdOverflow",
+      "subdominator_status": "edge_case",
+      "abigail_rule_id": "zendesk",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "body",
+      "source": "https://support.zendesk.com/hc/en-us/articles/4408838571930-Host-mapping-Changing-the-URL-of-your-help-center",
+      "notes": [
+        "Subdominator promotes upstream Not vulnerable to edge case in code"
+      ]
+    },
+    {
+      "upstream_service": "Zoho Forms",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "zoho-forms",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "status_only",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": [
+        "Abigail downgrades status-only evidence to edge_case"
+      ]
+    },
+    {
+      "upstream_service": "Zoho Forms India",
+      "upstream_catalog": "Stratus custom",
+      "subdominator_status": "vulnerable",
+      "abigail_rule_id": "zoho-forms-india",
+      "abigail_status": "edge_case",
+      "dns_mode": "cname",
+      "evidence_mode": "status_only",
+      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
+      "notes": [
+        "Abigail downgrades status-only evidence to edge_case"
+      ]
+    }
+  ]
+}

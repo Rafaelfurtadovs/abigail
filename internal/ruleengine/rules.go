@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"io"
 	"net"
+	"regexp"
 	"strings"
 )
 
@@ -21,10 +22,13 @@ type Rule struct {
 	Service        string   `json:"service"`
 	CNAMESuffixes  []string `json:"cname_suffixes"`
 	CNAMEExact     []string `json:"cname_exact"`
+	CNAMERegexes   []string `json:"cname_regexes"`
 	ARecords       []string `json:"a_records"`
 	AAAARecords    []string `json:"aaaa_records"`
+	NSSuffixes     []string `json:"ns_suffixes"`
 	HTTPStatuses   []int    `json:"http_statuses"`
 	BodySubstrings []string `json:"body_substrings"`
+	BodyRegexes    []string `json:"body_regexes"`
 	TargetNXDomain bool     `json:"target_nxdomain"`
 	Status         string   `json:"status"`
 	Source         string   `json:"source"`
@@ -71,19 +75,36 @@ func validate(rule Rule) error {
 	if rule.Status != "vulnerable" && rule.Status != "edge_case" {
 		return fmt.Errorf("%s: status must be vulnerable or edge_case", rule.ID)
 	}
-	if len(rule.CNAMESuffixes)+len(rule.CNAMEExact)+len(rule.ARecords)+len(rule.AAAARecords) == 0 {
+	if len(rule.CNAMESuffixes)+len(rule.CNAMEExact)+len(rule.CNAMERegexes)+len(rule.ARecords)+len(rule.AAAARecords)+len(rule.NSSuffixes) == 0 {
 		return fmt.Errorf("%s: at least one DNS matcher is required", rule.ID)
 	}
 	if rule.TargetNXDomain {
-		if len(rule.HTTPStatuses)+len(rule.BodySubstrings) != 0 {
+		if len(rule.HTTPStatuses)+len(rule.BodySubstrings)+len(rule.BodyRegexes) != 0 {
 			return fmt.Errorf("%s: NXDOMAIN and HTTP evidence modes must be separate rules", rule.ID)
 		}
-	} else if len(rule.BodySubstrings) == 0 {
-		return fmt.Errorf("%s: HTTP rules need a body fingerprint", rule.ID)
+	} else if len(rule.BodySubstrings)+len(rule.BodyRegexes) == 0 {
+		if len(rule.HTTPStatuses) == 0 || rule.Status != "edge_case" {
+			return fmt.Errorf("%s: status-only HTTP rules must be edge cases", rule.ID)
+		}
 	}
 	for _, suffix := range rule.CNAMESuffixes {
 		if suffix == "" || strings.HasPrefix(suffix, ".") || strings.HasSuffix(suffix, ".") {
 			return fmt.Errorf("%s: invalid CNAME suffix %q", rule.ID, suffix)
+		}
+	}
+	for _, suffix := range rule.NSSuffixes {
+		if suffix == "" || strings.HasPrefix(suffix, ".") || strings.HasSuffix(suffix, ".") {
+			return fmt.Errorf("%s: invalid NS suffix %q", rule.ID, suffix)
+		}
+	}
+	for _, pattern := range rule.BodyRegexes {
+		if _, err := regexp.Compile(pattern); err != nil {
+			return fmt.Errorf("%s: invalid body regex %q: %w", rule.ID, pattern, err)
+		}
+	}
+	for _, pattern := range rule.CNAMERegexes {
+		if _, err := regexp.Compile(pattern); err != nil {
+			return fmt.Errorf("%s: invalid CNAME regex %q: %w", rule.ID, pattern, err)
 		}
 	}
 	for _, status := range rule.HTTPStatuses {
@@ -96,7 +117,7 @@ func validate(rule Rule) error {
 
 // MatchDNS requires an exact DNS label boundary. It never treats an arbitrary
 // substring such as example.com.attacker.test as a match for example.com.
-func MatchDNS(rule Rule, cnames, ipv4, ipv6 []string) []DNSMatch {
+func MatchDNS(rule Rule, cnames, ipv4, ipv6, nameservers []string) []DNSMatch {
 	var matches []DNSMatch
 	for _, raw := range cnames {
 		value := strings.TrimSuffix(strings.ToLower(raw), ".")
@@ -109,6 +130,13 @@ func MatchDNS(rule Rule, cnames, ipv4, ipv6 []string) []DNSMatch {
 		for _, suffix := range rule.CNAMESuffixes {
 			suffix = strings.ToLower(suffix)
 			if value == suffix || strings.HasSuffix(value, "."+suffix) {
+				matches = append(matches, DNSMatch{Record: "CNAME", Value: raw})
+				break
+			}
+		}
+		for _, pattern := range rule.CNAMERegexes {
+			compiled, err := regexp.Compile(pattern)
+			if err == nil && compiled.MatchString(value) {
 				matches = append(matches, DNSMatch{Record: "CNAME", Value: raw})
 				break
 			}
@@ -126,6 +154,16 @@ func MatchDNS(rule Rule, cnames, ipv4, ipv6 []string) []DNSMatch {
 					matches = append(matches, DNSMatch{Record: item.record, Value: raw})
 					break
 				}
+			}
+		}
+	}
+	for _, raw := range nameservers {
+		value := strings.TrimSuffix(strings.ToLower(raw), ".")
+		for _, suffix := range rule.NSSuffixes {
+			suffix = strings.ToLower(suffix)
+			if value == suffix || strings.HasSuffix(value, "."+suffix) {
+				matches = append(matches, DNSMatch{Record: "NS", Value: raw})
+				break
 			}
 		}
 	}
@@ -154,6 +192,15 @@ func MatchHTTP(rule Rule, status int, body []byte) (string, bool) {
 		if fingerprint != "" && bytes.Contains(body, []byte(fingerprint)) {
 			return fingerprint, true
 		}
+	}
+	for _, pattern := range rule.BodyRegexes {
+		compiled, err := regexp.Compile(pattern)
+		if err == nil && compiled.Match(body) {
+			return "regex:" + pattern, true
+		}
+	}
+	if len(rule.BodySubstrings)+len(rule.BodyRegexes) == 0 && len(rule.HTTPStatuses) > 0 {
+		return "", true
 	}
 	return "", false
 }
