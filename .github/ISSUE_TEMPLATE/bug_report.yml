@@ -1,0 +1,32 @@
+name: Bug report
+description: Report a reproducible defect without sharing sensitive target data.
+title: "bug: "
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Abigail version
+      description: Output of `abigail version` or the commit SHA.
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options: [macOS arm64, macOS amd64, Linux arm64, Linux amd64, Other]
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Use a local or authorized test fixture. Redact private hostnames, credentials, and response data.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected and observed behavior
+    validations:
+      required: true

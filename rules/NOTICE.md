@@ -1,0 +1,12 @@
+# Rule data attribution
+
+The bundled `providers.json` adapts entries from:
+
+1. EdOverflow, [can-i-take-over-xyz `fingerprints.json`](https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json), commit `5bd4e12837911c8475486f1da922c9b9c706e632`. The source project licenses its material under [Creative Commons Attribution 4.0 International](https://creativecommons.org/licenses/by/4.0/).
+2. Stratus Security, [Subdominator `custom_fingerprints.json`](https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json), commit `9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0`. The source repository uses the [MIT License](STRATUS_LICENSE.md).
+
+Changes made for Abigail: normalized provider identifiers and DNS selectors; converted supported source fingerprints to literal or Go RE2 body checks or NXDOMAIN conditions; and downgraded uncertain signatures to `edge_case`. The `v0.2.1` audit excluded 44 of the 97 reference identities from the active pack. These include status-only signatures and the six entries that the source catalog itself calls `Not vulnerable`. The [coverage inventory](coverage.json) preserves every source identity and the exclusion reason. Every active rule retains a `source` URL, with provider documentation used where it supports a corrected selector. Matching a published service identity does not establish that it can currently be claimed. The source projects do not endorse Abigail.
+
+Many retained DNS target patterns and HTTP texts are adapted from [Subdominator's pinned overrides](https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs). Corrections use current primary documentation, including [AWS S3 CNAME behavior](https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html), [DigitalOcean's published DNS nameservers](https://docs.digitalocean.com/products/networking/dns/details/features/), and [Surge's custom-domain targets](https://surge.sh/docs/platform/custom-domains). An edge-case match is deliberately a lower-confidence observation; provider-side claimability still needs separate confirmation.
+
+The Abigail program code is under the repository's MIT license. The adapted rule data remains subject to the attribution terms above. Changes to the rule data should preserve this notice and record their sources.

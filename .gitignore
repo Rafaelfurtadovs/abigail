@@ -1,0 +1,27 @@
+# Local builds
+/bin/
+/dist/
+/build/
+/abigail
+*.exe
+*.test
+*.out
+*.prof
+coverage.txt
+coverage.html
+
+# Local scan output and input lists
+results*.jsonl
+results*.txt
+domains*.txt
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Local environment
+.env
+.env.*
+!.env.example

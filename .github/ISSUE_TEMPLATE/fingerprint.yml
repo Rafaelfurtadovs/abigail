@@ -1,0 +1,32 @@
+name: Provider rule proposal
+description: Propose a verifiable takeover fingerprint or a correction.
+title: "rule: "
+labels: [rules]
+body:
+  - type: input
+    id: service
+    attributes:
+      label: Provider and service
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: Public source and claimability conditions
+      description: Link provider documentation or a public research source. Explain when a resource can actually be claimed.
+    validations:
+      required: true
+  - type: textarea
+    id: positive
+    attributes:
+      label: Positive fixture
+      description: Describe DNS and HTTP evidence using synthetic names only.
+    validations:
+      required: true
+  - type: textarea
+    id: negative
+    attributes:
+      label: Negative fixture
+      description: Show a similar case that must not alert.
+    validations:
+      required: true
