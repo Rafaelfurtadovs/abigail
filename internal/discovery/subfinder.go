@@ -52,8 +52,8 @@ func querySubfinder(ctx context.Context, root, providerConfig string, maxHosts i
 	return names, errors.Join(queryErr, engine.Close())
 }
 
-// NewSubfinderEngine uses Subfinder's default passive sources and credentials.
-// Empty providerConfig uses Subfinder's usual provider-config.yaml location;
+// NewSubfinderEngine uses the embedded engine's default passive sources.
+// Empty providerConfig uses Abigail's provider-config.yaml location;
 // SOURCE_API_KEY environment variables are also supported. Wildcard/DNS
 // filtering stays off because takeover checks need dangling CNAME evidence.
 func NewSubfinderEngine(ctx context.Context, providerConfig string, maxHosts int) (*SubfinderEngine, error) {
@@ -64,21 +64,21 @@ func NewSubfinderEngine(ctx context.Context, providerConfig string, maxHosts int
 
 func newSubfinderEngine(ctx context.Context, providerConfig string, maxHosts int, newRunner func(*runner.Options) (subfinderEnumerator, error)) (*SubfinderEngine, error) {
 	if ctx == nil {
-		return nil, errors.New("subfinder: context is required")
+		return nil, errors.New("passive discovery requires a context")
 	}
 	if err := ctx.Err(); err != nil {
-		return nil, fmt.Errorf("subfinder: %w", err)
+		return nil, fmt.Errorf("passive discovery: %w", err)
 	}
 	if maxHosts < 1 {
-		return nil, errors.New("subfinder: maxHosts must be positive")
+		return nil, errors.New("passive discovery requires a positive host limit")
 	}
 	if providerConfig != "" {
 		info, err := os.Stat(providerConfig)
 		if err != nil {
-			return nil, fmt.Errorf("subfinder provider config %q: %w", providerConfig, err)
+			return nil, fmt.Errorf("provider config %q: %w", providerConfig, err)
 		}
 		if info.IsDir() {
-			return nil, fmt.Errorf("subfinder provider config %q is a directory", providerConfig)
+			return nil, fmt.Errorf("provider config %q is a directory", providerConfig)
 		}
 	}
 	// The Subfinder CLI installs these provider limits in ParseOptions; SDK
@@ -92,7 +92,7 @@ func newSubfinderEngine(ctx context.Context, providerConfig string, maxHosts int
 		"netlas=1/s", "hudsonrock=5/s", "urlscan=1/s",
 	} {
 		if err := rateLimits.Set(limit); err != nil {
-			return nil, fmt.Errorf("subfinder: invalid provider rate limit %q: %w", limit, err)
+			return nil, fmt.Errorf("invalid provider rate limit %q: %w", limit, err)
 		}
 	}
 
@@ -109,11 +109,11 @@ func newSubfinderEngine(ctx context.Context, providerConfig string, maxHosts int
 		DisableUpdateCheck:  true,
 	})
 	if err != nil {
-		return nil, fmt.Errorf("subfinder: initialize: %w", err)
+		return nil, fmt.Errorf("initialize passive sources: %w", err)
 	}
 	closeLimiter, err := client.StartSharedRateLimiter(ctx)
 	if err != nil {
-		return nil, fmt.Errorf("subfinder: initialize provider rate limits: %w", err)
+		return nil, fmt.Errorf("initialize provider rate limits: %w", err)
 	}
 	return &SubfinderEngine{client: client, close: closeLimiter, maxHosts: maxHosts}, nil
 }
@@ -130,13 +130,13 @@ func (e *SubfinderEngine) Close() error {
 // statistics are not safe to use concurrently for independent roots.
 func (e *SubfinderEngine) Query(ctx context.Context, root string) ([]string, error) {
 	if e == nil || e.client == nil {
-		return nil, errors.New("subfinder: engine is not initialized")
+		return nil, errors.New("passive discovery is not initialized")
 	}
 	if ctx == nil {
-		return nil, errors.New("subfinder: context is required")
+		return nil, errors.New("passive discovery requires a context")
 	}
 	if err := ctx.Err(); err != nil {
-		return nil, fmt.Errorf("subfinder: %w", err)
+		return nil, fmt.Errorf("passive discovery: %w", err)
 	}
 	root, err := normalizeRoot(root)
 	if err != nil {
@@ -152,10 +152,10 @@ func (e *SubfinderEngine) Query(ctx context.Context, root string) ([]string, err
 	}
 	names := sortedHosts(hosts)
 	if runErr != nil {
-		return names, fmt.Errorf("subfinder: enumerate: %w", runErr)
+		return names, fmt.Errorf("enumerate passive sources: %w", runErr)
 	}
 	if err := ctx.Err(); err != nil {
-		return names, fmt.Errorf("subfinder: %w", err)
+		return names, fmt.Errorf("passive discovery: %w", err)
 	}
 
 	// The runner logs individual source errors but exposes only counts here.
@@ -172,7 +172,7 @@ func (e *SubfinderEngine) Query(ctx context.Context, root string) ([]string, err
 	}
 	if len(failed) > 0 {
 		sort.Strings(failed)
-		return names, fmt.Errorf("subfinder: source errors: %s", strings.Join(failed, ", "))
+		return names, fmt.Errorf("source errors: %s", strings.Join(failed, ", "))
 	}
 	return names, nil
 }

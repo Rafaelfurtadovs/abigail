@@ -56,7 +56,6 @@ documented in [THIRD_PARTY_NOTICES.md](../THIRD_PARTY_NOTICES.md).
 | `github.com/google/shlex` | `v0.0.0-20191202100458-e7afc7fbc510` | [COPYING](modules/github.com/google/shlex@v0.0.0-20191202100458-e7afc7fbc510/COPYING) |
 | `github.com/google/uuid` | `v1.6.0` | [LICENSE](modules/github.com/google/uuid@v1.6.0/LICENSE) |
 | `github.com/gorilla/css` | `v1.0.1` | [LICENSE](modules/github.com/gorilla/css@v1.0.1/LICENSE) |
-| `github.com/hako/durafmt` | `v0.0.0-20210316092057-3a2c319c1acd` | [LICENSE](modules/github.com/hako/durafmt@v0.0.0-20210316092057-3a2c319c1acd/LICENSE) |
 | `github.com/json-iterator/go` | `v1.1.12` | [LICENSE](modules/github.com/json-iterator/go@v1.1.12/LICENSE) |
 | `github.com/kylelemons/godebug` | `v1.1.0` | [LICENSE](modules/github.com/kylelemons/godebug@v1.1.0/LICENSE) |
 | `github.com/lib/pq` | `v1.10.9` | [LICENSE.md](modules/github.com/lib/pq@v1.10.9/LICENSE.md) |

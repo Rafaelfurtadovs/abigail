@@ -55,10 +55,8 @@ func NewRunner(options *Options) (*Runner, error) {
 	// Check if the application loading with any provider configuration, then take it
 	// Otherwise load the default provider config
 	if fileutil.FileExists(options.ProviderConfig) {
-		gologger.Info().Msgf("Loading provider config from %s", options.ProviderConfig)
 		providerKeys = options.loadProvidersFrom(options.ProviderConfig)
 	} else {
-		gologger.Info().Msgf("Loading provider config from the default location: %s", defaultProviderConfigLocation)
 		providerKeys = options.loadProvidersFrom(defaultProviderConfigLocation)
 	}
 

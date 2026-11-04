@@ -84,7 +84,7 @@ func TestIncompatibleDiscoveryFlagsFailBeforeNetwork(t *testing.T) {
 func TestNativeDiscoveryRejectsSubfinderConfig(t *testing.T) {
 	var stdout, stderr bytes.Buffer
 	code := run([]string{"scan", "-d", "example.com", "--native-discovery", "--provider-config", "/does/not/exist/providers.yaml"}, &stdout, &stderr)
-	if code != 2 || !strings.Contains(stderr.String(), "requires the Subfinder discovery engine") {
+	if code != 2 || !strings.Contains(stderr.String(), "requires the default discovery engine") {
 		t.Fatalf("code=%d, stderr=%q", code, stderr.String())
 	}
 }
@@ -124,11 +124,21 @@ func TestMalformedEnvProviderConfigFailsBeforeNetwork(t *testing.T) {
 	if err := os.WriteFile(path, []byte("github: bad-value\n"), 0600); err != nil {
 		t.Fatal(err)
 	}
-	t.Setenv("SUBFINDER_PROVIDER_CONFIG", path)
+	t.Setenv("ABIGAIL_PROVIDER_CONFIG", path)
 	var stdout, stderr bytes.Buffer
 	code := run([]string{"scan", "-d", "example.com"}, &stdout, &stderr)
 	if code != 2 || !strings.Contains(stderr.String(), "expected YAML mapping") {
 		t.Fatalf("code=%d, stderr=%q", code, stderr.String())
+	}
+}
+
+func TestScanHelpUsesAbigailBranding(t *testing.T) {
+	var stdout, stderr bytes.Buffer
+	if code := run([]string{"scan", "-h"}, &stdout, &stderr); code != 0 {
+		t.Fatalf("help exit code = %d", code)
+	}
+	if strings.Contains(strings.ToLower(stderr.String()), "subfinder") {
+		t.Fatalf("scan help exposed dependency branding: %q", stderr.String())
 	}
 }
 

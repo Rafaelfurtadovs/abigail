@@ -10,11 +10,11 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/projectdiscovery/goflags"
-	"github.com/projectdiscovery/gologger"
 	"github.com/Rafaelfurtadovs/abigail/third_party/subfinder/pkg/passive"
 	"github.com/Rafaelfurtadovs/abigail/third_party/subfinder/pkg/resolve"
 	"github.com/Rafaelfurtadovs/abigail/third_party/subfinder/pkg/subscraping"
+	"github.com/projectdiscovery/goflags"
+	"github.com/projectdiscovery/gologger"
 	envutil "github.com/projectdiscovery/utils/env"
 	fileutil "github.com/projectdiscovery/utils/file"
 	folderutil "github.com/projectdiscovery/utils/folder"
@@ -23,9 +23,9 @@ import (
 )
 
 var (
-	configDir                     = folderutil.AppConfigDirOrDefault(".", "subfinder")
-	defaultConfigLocation         = envutil.GetEnvOrDefault("SUBFINDER_CONFIG", filepath.Join(configDir, "config.yaml"))
-	defaultProviderConfigLocation = envutil.GetEnvOrDefault("SUBFINDER_PROVIDER_CONFIG", filepath.Join(configDir, "provider-config.yaml"))
+	configDir                     = folderutil.AppConfigDirOrDefault(".", "abigail")
+	defaultConfigLocation         = envutil.GetEnvOrDefault("ABIGAIL_CONFIG", filepath.Join(configDir, "config.yaml"))
+	defaultProviderConfigLocation = envutil.GetEnvOrDefault("ABIGAIL_PROVIDER_CONFIG", filepath.Join(configDir, "provider-config.yaml"))
 )
 
 // Options contains the configuration options for tuning

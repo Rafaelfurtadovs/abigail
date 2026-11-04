@@ -90,10 +90,10 @@ func discoverDomains(ctx context.Context, roots []string, cfg config, stderr io.
 		}
 		defer func() {
 			if err := engine.Close(); err != nil {
-				fmt.Fprintf(stderr, "warning: close Subfinder discovery: %v\n", err)
+				fmt.Fprintf(stderr, "warning: close passive discovery: %v\n", err)
 			}
 		}()
-		sources = []namedDiscoverySource{{name: "Subfinder passive sources", run: engine.Query}}
+		sources = []namedDiscoverySource{{name: "passive indexes", run: engine.Query}}
 	}
 	if cfg.brute {
 		concurrency := min(cfg.concurrency, 16)

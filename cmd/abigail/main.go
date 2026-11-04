@@ -27,7 +27,7 @@ import (
 	"golang.org/x/net/publicsuffix"
 )
 
-const version = "0.3.0"
+const version = "0.3.1"
 
 type config struct {
 	domain            string
@@ -113,9 +113,9 @@ func scanCommand(args []string, stdout, stderr io.Writer) int {
 	flags.BoolVar(&cfg.excludeEdgeCases, "exclude-edge-cases", false, "exclude lower-confidence provider rules")
 	flags.BoolVar(&cfg.validate, "validate", false, "check supported AWS/Azure resource names through read-only APIs after signature matching")
 	flags.StringVar(&cfg.azureSubscription, "azure-subscription", os.Getenv("AZURE_SUBSCRIPTION_ID"), "Azure subscription ID for --validate (or AZURE_SUBSCRIPTION_ID)")
-	flags.StringVar(&cfg.providerConfig, "provider-config", "", "Subfinder provider API keys YAML (default: Subfinder's configured path)")
+	flags.StringVar(&cfg.providerConfig, "provider-config", "", "provider API keys YAML (default: Abigail's config directory)")
 	flags.BoolVar(&cfg.noDiscover, "no-discover", false, "scan only the supplied hostnames without discovering children")
-	flags.BoolVar(&cfg.nativeDiscovery, "native-discovery", false, "use Abigail's four direct passive sources instead of Subfinder")
+	flags.BoolVar(&cfg.nativeDiscovery, "native-discovery", false, "use only Abigail's four direct passive sources")
 	flags.BoolVar(&cfg.discoverOnly, "discover-only", false, "print discovered subdomains without takeover checks")
 	flags.BoolVar(&cfg.brute, "brute", false, "also try a bounded built-in DNS wordlist")
 	flags.DurationVar(&cfg.discoveryTimeout, "discovery-timeout", 10*time.Minute, "total timeout for each passive discovery source")
@@ -147,16 +147,16 @@ func scanCommand(args []string, stdout, stderr io.Writer) int {
 		return 2
 	}
 	if cfg.nativeDiscovery && cfg.providerConfig != "" {
-		fmt.Fprintln(stderr, "--provider-config requires the Subfinder discovery engine")
+		fmt.Fprintln(stderr, "--provider-config requires the default discovery engine")
 		return 2
 	}
 	if !cfg.noDiscover && !cfg.nativeDiscovery {
 		providerPath := cfg.providerConfig
 		if providerPath == "" {
-			providerPath = os.Getenv("SUBFINDER_PROVIDER_CONFIG")
+			providerPath = os.Getenv("ABIGAIL_PROVIDER_CONFIG")
 		}
 		if providerPath == "" {
-			defaultPath := filepath.Join(folderutil.AppConfigDirOrDefault(".", "subfinder"), "provider-config.yaml")
+			defaultPath := filepath.Join(folderutil.AppConfigDirOrDefault(".", "abigail"), "provider-config.yaml")
 			if _, err := os.Stat(defaultPath); err == nil {
 				providerPath = defaultPath
 			} else if !errors.Is(err, os.ErrNotExist) {
@@ -169,6 +169,7 @@ func scanCommand(args []string, stdout, stderr io.Writer) int {
 				fmt.Fprintf(stderr, "provider config: %v\n", err)
 				return 2
 			}
+			cfg.providerConfig = providerPath
 		}
 	}
 	if cfg.excludeEdgeCases {

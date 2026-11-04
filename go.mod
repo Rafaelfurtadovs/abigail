@@ -10,7 +10,6 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/cognitoidentityprovider v1.75.7
 	github.com/aws/aws-sdk-go-v2/service/elasticbeanstalk v1.43.6
 	github.com/corpix/uarand v0.2.0
-	github.com/hako/durafmt v0.0.0-20210316092057-3a2c319c1acd
 	github.com/json-iterator/go v1.1.12
 	github.com/lib/pq v1.10.9
 	github.com/miekg/dns v1.1.73

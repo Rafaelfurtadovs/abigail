@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.3.1
+
+- Use Abigail's own provider config directory and `ABIGAIL_PROVIDER_CONFIG` environment variable. Existing provider YAML can be supplied with `--provider-config`.
+- Remove embedded-engine branding and redundant progress messages from the normal CLI output; the Abigail discovery summary remains visible. Third-party source and license attribution remains in the repository and release archives.
+
 ## v0.3.0
 
 - Discover subdomains before takeover checks using a vendored, security-patched copy of Subfinder v2.17.0's default passive sources, including crt.name. The optional `--native-discovery` mode uses Abigail's direct crt.name, crt.sh, Cert Spotter, and HackerTarget queries. `scan -d` now treats its argument as a root domain, and `scan -l` treats each input line as a root; use `--no-discover` for exact hostnames.

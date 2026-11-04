@@ -10,16 +10,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/hako/durafmt"
-
 	"github.com/projectdiscovery/gologger"
 
 	"github.com/Rafaelfurtadovs/abigail/third_party/subfinder/pkg/passive"
 	"github.com/Rafaelfurtadovs/abigail/third_party/subfinder/pkg/resolve"
 	"github.com/Rafaelfurtadovs/abigail/third_party/subfinder/pkg/subscraping"
 )
-
-const maxNumCount = 2
 
 var replacer = strings.NewReplacer(
 	"/", "",
@@ -37,8 +33,6 @@ func (r *Runner) EnumerateSingleDomain(domain string, writers []io.Writer) (map[
 
 // EnumerateSingleDomainWithCtx performs subdomain enumeration against a single domain
 func (r *Runner) EnumerateSingleDomainWithCtx(ctx context.Context, domain string, writers []io.Writer) (map[string]map[string]struct{}, error) {
-	gologger.Info().Msgf("Enumerating subdomains for %s\n", domain)
-
 	// Check if the user has asked to remove wildcards explicitly.
 	// If yes, create the resolution pool and get the wildcards for the current domain
 	var resolutionPool *resolve.ResolutionPool
@@ -52,7 +46,6 @@ func (r *Runner) EnumerateSingleDomainWithCtx(ctx context.Context, domain string
 	}
 
 	// Run the passive subdomain enumeration
-	now := time.Now()
 	passiveResults := r.passiveAgent.EnumerateSubdomainsWithCtx(ctx, domain, r.options.Proxy, r.options.RateLimit, r.options.Timeout, time.Duration(r.options.MaxEnumerationTime)*time.Minute, passive.WithCustomRateLimit(r.rateLimit), passive.WithMaxResults(r.options.MaxResults), passive.WithMaxResponseBodySize(int64(r.options.MaxResponseBodySize)), passive.WithRateLimiter(r.sharedRateLimiter))
 
 	wg := &sync.WaitGroup{}
@@ -70,11 +63,6 @@ func (r *Runner) EnumerateSingleDomainWithCtx(ctx context.Context, domain string
 			}
 
 			switch result.Type {
-			case subscraping.Error:
-				// Provider adapters may include response text or credential-bearing
-				// URLs in their errors. Their error counts remain available through
-				// GetStatistics without printing secrets to the user's terminal.
-				gologger.Warning().Msgf("Source %s returned an error (details redacted)\n", result.Source)
 			case subscraping.Subdomain:
 				value := normalizeSubdomain(result.Value)
 				subdomain := replacer.Replace(value)
@@ -243,17 +231,6 @@ func (r *Runner) EnumerateSingleDomainWithCtx(ctx context.Context, domain string
 			return nil, err
 		}
 	}
-
-	// Show found subdomain count in any case.
-	duration := durafmt.Parse(time.Since(now)).LimitFirstN(maxNumCount).String()
-	var numberOfSubDomains int
-	if r.options.RemoveWildcard {
-		numberOfSubDomains = len(foundResults)
-	} else {
-		numberOfSubDomains = len(uniqueMap)
-	}
-
-	gologger.Info().Msgf("Found %d subdomains for %s in %s\n", numberOfSubDomains, domain, duration)
 
 	if r.options.Statistics {
 		gologger.Info().Msgf("Printing source statistics for %s", domain)

@@ -7,10 +7,10 @@ Abigail is an open-source Go tool that discovers subdomains and checks them for 
 With Go 1.26.10 or newer:
 
 ```sh
-go install github.com/Rafaelfurtadovs/abigail/cmd/abigail@v0.3.0
+go install github.com/Rafaelfurtadovs/abigail/cmd/abigail@v0.3.1
 ```
 
-The binary is placed in `GOBIN` or, by default, `$(go env GOPATH)/bin`. Without Go, download the archive for your system from the [v0.3.0 release](https://github.com/Rafaelfurtadovs/abigail/releases/tag/v0.3.0), verify it against `SHA256SUMS`, and extract it.
+The binary is placed in `GOBIN` or, by default, `$(go env GOPATH)/bin`. Without Go, download the archive for your system from the [v0.3.1 release](https://github.com/Rafaelfurtadovs/abigail/releases/tag/v0.3.1), verify it against `SHA256SUMS`, then extract the archive and run `./abigail version`.
 
 ## License
 
