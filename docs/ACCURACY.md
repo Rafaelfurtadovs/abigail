@@ -2,7 +2,9 @@
 
 Abigail is not described as more accurate or faster than another scanner until
 the claim is supported by a published, reproducible evaluation. This document
-defines how to compare Abigail with Subdominator or another tool.
+defines how to compare Abigail with Subdominator or another tool. The `v0.2.1`
+rule audit reduced active coverage from 97 to 53 while recording 44 exclusions;
+lower alert volume alone is not evidence of higher precision.
 
 ## Build the labeled corpus
 
@@ -58,6 +60,9 @@ stays unknown. A finding with `validation.state=unavailable` appears under
 `dismissed` rather than active `findings`; review those cases separately for
 false dismissal.
 Validation states `unknown` and `unsupported` do not establish a negative.
+For Cognito, `DescribeUserPoolDomain` can confirm an existing prefix and
+dismiss the scanner alert, but a missing prefix is `unknown`, not proof that
+another account can create or attach it. Audit such dismissals separately.
 Do not count an unknown scan as a true negative. Apply an equivalent published
 mapping to the comparator's output, including errors and unsupported cases.
 
@@ -71,6 +76,9 @@ true negatives (TN). Report:
 - **Unknown rate:** unknown outputs divided by all evaluated cases, separately
   for positive and negative ground truth.
 - **Coverage:** providers and cases for which each tool has an applicable rule.
+- **Excluded-reference coverage:** cases matching one of Abigail's 44
+  historical excluded identities. Report them separately as untested coverage,
+  never as true negatives merely because the active pack did not alert.
 - **Validation availability:** counts of `available`, `unavailable`, `unknown`,
   and `unsupported` by provider when direct validation is enabled.
 

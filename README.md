@@ -15,17 +15,20 @@ claim a cloud resource, modify DNS, or exploit a target.
 > [evaluation protocol](docs/ACCURACY.md) for how comparative claims will be
 > measured.
 
-**Version note:** `v0.2.0` is the current release. Check `abigail version`
-to identify the version you are running. The earlier `v0.1.0` release had a
-smaller rule pack and no direct provider validation.
+**Version note:** `v0.2.1` is the current release. Check `abigail version`
+to identify the version you are running. This update reviewed the entire
+`v0.2.0` rule pack and removed signatures that lacked useful takeover
+evidence.
 
 | Version | Rules | Edge-case rules by default | Direct provider validation |
 | --- | ---: | --- | --- |
 | Earlier `v0.1.0` | 49 | Off | No |
-| Current `v0.2.0` | 97 mapped service identities | On; use `--exclude-edge-cases` to disable | Opt-in `--validate` for supported AWS/Azure names |
+| Earlier `v0.2.0` | 97 mapped service identities | On; use `--exclude-edge-cases` to disable | Opt-in checks for supported AWS Elastic Beanstalk and Azure names |
+| Current `v0.2.1` | 53 active; 44 excluded with reasons | On; use `--exclude-edge-cases` to disable | Opt-in AWS Elastic Beanstalk, Azure, and Cognito checks |
 
-The examples below describe `v0.2.0`. Service count parity with another
-scanner is not evidence of equal or better detection accuracy. See the
+The examples below describe `v0.2.1`. The [coverage inventory](docs/RULE_COVERAGE.md)
+accounts for all 97 reference services and explains why 44 are excluded from
+active scanning. Rule count is not a measure of accuracy. See the
 [changelog](CHANGELOG.md) for release changes.
 
 ## Features
@@ -38,13 +41,13 @@ scanner is not evidence of equal or better detection accuracy. See the
 - Separate positive matches from unknown or incomplete checks.
 - Write machine-readable JSON Lines output for CI or further analysis.
 - Bound concurrency and per-host timeouts.
-- Optionally ask supported AWS and Azure availability APIs about a matched
-  resource name, without creating or claiming it.
+- Optionally ask supported AWS and Azure APIs about a matched resource name,
+  without creating or claiming it.
 
 ## Requirements
 
 - macOS or Linux, on a platform supported by the installed Go toolchain.
-- Go 1.26.10 or newer to build `v0.2.0` or the current source, as specified by
+- Go 1.26.10 or newer to build `v0.2.1` or the current source, as specified by
   [`go.mod`](go.mod). The published release archives do not require Go.
 - Network access for DNS lookups and, when a rule requires it, HTTP(S) checks.
   The optional `--validate` mode also needs access to the relevant AWS or
@@ -55,14 +58,14 @@ No administrator privileges are required. Run Abigail as an ordinary user.
 ## Download a release without Go
 
 Download the archive for your system and `SHA256SUMS` from the
-[v0.2.0 release](https://github.com/Rafaelfurtadovs/abigail/releases/tag/v0.2.0):
+[v0.2.1 release](https://github.com/Rafaelfurtadovs/abigail/releases/tag/v0.2.1):
 
 | System | Archive |
 | --- | --- |
-| macOS, Apple Silicon | `abigail_v0.2.0_darwin_arm64.tar.gz` |
-| macOS, Intel | `abigail_v0.2.0_darwin_amd64.tar.gz` |
-| Linux, x86-64 | `abigail_v0.2.0_linux_amd64.tar.gz` |
-| Linux, ARM64 | `abigail_v0.2.0_linux_arm64.tar.gz` |
+| macOS, Apple Silicon | `abigail_v0.2.1_darwin_arm64.tar.gz` |
+| macOS, Intel | `abigail_v0.2.1_darwin_amd64.tar.gz` |
+| Linux, x86-64 | `abigail_v0.2.1_linux_amd64.tar.gz` |
+| Linux, ARM64 | `abigail_v0.2.1_linux_arm64.tar.gz` |
 
 Check your archive's digest against its entry in `SHA256SUMS` with
 `shasum -a 256 ARCHIVE` on macOS or `sha256sum ARCHIVE` on Linux. Then run:
@@ -105,10 +108,10 @@ executable is built for the machine on which `go build` runs and includes the
 default rule pack. To remove it, delete that executable; Abigail does not
 require a system-wide installation.
 
-You can also install the published `v0.2.0` module with:
+You can also install the published `v0.2.1` module with:
 
 ```sh
-go install github.com/Rafaelfurtadovs/abigail/cmd/abigail@v0.2.0
+go install github.com/Rafaelfurtadovs/abigail/cmd/abigail@v0.2.1
 ```
 
 Go places the command in `GOBIN` when set, otherwise in `$(go env GOPATH)/bin`.
@@ -132,7 +135,7 @@ without changing `PATH`.
 
 ## Quick start
 
-The examples below use `v0.2.0`. For the earlier `v0.1.0` release, use
+The examples below use `v0.2.1`. For an earlier release, use
 `./abigail scan --help` to see its available flags.
 
 Scan one authorized hostname:
@@ -185,8 +188,8 @@ routes can see different records or reach different servers. For a meaningful
 result, use a resolver consistent with the HTTP network view and review the
 reported DNS chain and URL together.
 
-In `v0.2.0`, request provider-side name availability
-checks for supported AWS and Azure targets only after a signature matches:
+In `v0.2.1`, request provider-side checks for supported AWS and Azure targets
+only after a signature matches:
 
 ```sh
 ./abigail scan -d sub.example.com --validate --format jsonl
@@ -202,9 +205,12 @@ AZURE_SUBSCRIPTION_ID=00000000-0000-0000-0000-000000000000 \
 ```
 
 The zero UUID is a placeholder; replace it with a subscription you are
-authorized to use. AWS Elastic Beanstalk validation uses the AWS SDK's default
-credential chain. Abigail does not open an interactive login or create a
-provider resource. Without `--validate`, it does not request cloud credentials.
+authorized to use. AWS Elastic Beanstalk and Cognito checks use the AWS SDK's
+default credential chain. The Cognito check can confirm that an exact prefix
+is already assigned and dismiss that alert. A missing prefix remains
+`unknown`: `DescribeUserPoolDomain` does not prove that a new account can
+claim it. Abigail does not open an interactive login or create a provider
+resource. Without `--validate`, it does not request cloud credentials.
 
 Run `./abigail scan --help` for the exact options and defaults in your build.
 
@@ -221,9 +227,9 @@ Run `./abigail scan --help` for the exact options and defaults in your build.
 | `--concurrency` | Maximum simultaneous hostname checks, from 1 to 256. | 20 |
 | `--rate` | Maximum new hostname checks per second; `0` disables pacing. | 20 |
 | `--timeout` | Timeout for an individual DNS or HTTP request. | `5s` |
-| `--include-edge-cases` | Retained compatibility flag to include edge-case rules. | On in `v0.2.0`; off in `v0.1.0`. |
-| `--exclude-edge-cases` | Exclude lower-confidence edge-case rules. | Off in `v0.2.0`; absent in `v0.1.0`. |
-| `--validate` | Ask supported provider APIs whether a matched resource name is available. | Off. |
+| `--include-edge-cases` | Retained compatibility flag to include edge-case rules. | On since `v0.2.0`; off in `v0.1.0`. |
+| `--exclude-edge-cases` | Exclude lower-confidence edge-case rules. | Off. |
+| `--validate` | Run supported provider-side name checks after a signature matches. | Off. |
 | `--azure-subscription` | Azure subscription ID for `--validate`; `AZURE_SUBSCRIPTION_ID` is also accepted. | Environment value, if set. |
 
 The scanner accepts ASCII/Punycode hostnames, removes duplicate entries from
@@ -274,18 +280,20 @@ no `target_nxdomain` evidence and needs separate investigation.
 Direct validation requires a complete CNAME chain and a rule match on the
 **exact final CNAME target**. The provider API response must refer to that
 same target; an earlier CNAME hop cannot be used to validate a different
-resource. Validation currently supports regional AWS Elastic Beanstalk names
-and Azure App Service or Traffic Manager names. Legacy or generated Beanstalk
-aliases, Azure CDN and other Azure resource families, and all other providers
-remain unsupported by direct validation. A missing subscription, missing
-credentials, API error, or inconclusive response yields `unknown`, not a
-negative result.
+resource. The available-name APIs cover regional AWS Elastic Beanstalk and
+Azure App Service or Traffic Manager. For Cognito prefix domains, the read-only
+[DescribeUserPoolDomain API](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_DescribeUserPoolDomain.html)
+only confirms an already-assigned name; it never upgrades a finding to
+`validated`. Legacy or generated Beanstalk aliases, other Azure resource
+families, and other providers remain unsupported by direct validation. A
+missing subscription, missing credentials, API error, or inconclusive
+response yields `unknown`, not a negative result.
 
 JSON Lines writes one JSON object per checked hostname. This format works well
 with `jq`, log processors, and CI systems. Keep scan output private when it
 contains internal hostnames or infrastructure details.
 
-In `v0.2.0`, `http_probes` records separate HTTPS and HTTP results,
+In `v0.2.1`, `http_probes` records separate HTTPS and HTTP results,
 including each URL, status, character encoding, truncation, or error. The
 finding's `http_url` identifies the response that matched its rule. If one
 scheme fails and neither response matches, the scan is `unknown` rather than
@@ -313,21 +321,22 @@ step fail unless the caller handles exit code `1` deliberately.
    independently and records both in `http_probes`. TLS certificate checks
    remain enabled; redirects are not followed.
 4. If `--validate` is set and a signature matches the exact final CNAME target,
-   Abigail checks that target's name availability through a supported provider
-   API. It never creates a resource.
+   Abigail uses a supported provider API to check availability or confirm an
+   existing assignment. It never creates a resource.
 5. It reports the evidence and the highest justified outcome. Missing or
    contradictory evidence is reported explicitly.
 
-The `v0.2.0` pack contains 97 rules (61 with `vulnerable` status
-and 36 lower-confidence `edge_case`) embedded in the executable; their
-source lives in [`rules/`](rules/). They are part of the versioned project so a
-scan can be reproduced with the same source revision. See the
+The `v0.2.1` pack contains 53 active rules (25 categorized `vulnerable`, 28
+lower-confidence `edge_case`) embedded in the executable. Forty-four signatures
+from the 97-service reference inventory were excluded after a rule-quality
+review; their identity and reason remain in [`rules/coverage.json`](rules/coverage.json).
+The active rules live in [`rules/`](rules/) and are versioned so a scan can be
+reproduced with the same source revision. See the
 [rule schema](rules/SCHEMA.md) for match semantics and the [attribution
 notice](rules/NOTICE.md) for third-party rule data and its licenses. The
-[coverage inventory](docs/RULE_COVERAGE.md) explains which service families
-are mapped and which are still uncertain. Matching the count of services in a
-reference catalog does not establish equal detection accuracy or provider
-claimability.
+[coverage inventory](docs/RULE_COVERAGE.md) explains the decisions. A
+fingerprint match does not establish claimability or overall superiority to
+another scanner.
 
 ## Responsible use
 

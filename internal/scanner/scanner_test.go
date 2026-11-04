@@ -61,7 +61,7 @@ func TestNXDomainNeedsCompleteCNAMEChain(t *testing.T) {
 	rule.TargetNXDomain = true
 	for _, complete := range []bool{true, false} {
 		s := Scanner{Rules: []ruleengine.Rule{rule}, Resolve: func(context.Context, string, dnsprobe.Options) dnsprobe.Result {
-			return dnsprobe.Result{CNAMEChain: []string{"gone.provider.test"}, NXDomain: true, ChainComplete: complete}
+			return dnsprobe.Result{CNAMEChain: []string{"gone.provider.test"}, FinalName: "gone.provider.test", NXDomain: true, ChainComplete: complete}
 		}}
 		got := s.Scan(context.Background(), "sub.example.test")
 		want := "unknown"
@@ -74,6 +74,19 @@ func TestNXDomainNeedsCompleteCNAMEChain(t *testing.T) {
 	}
 }
 
+func TestNXDomainIntermediateProviderIsNotAHit(t *testing.T) {
+	rule := testRule()
+	rule.BodySubstrings = nil
+	rule.TargetNXDomain = true
+	s := Scanner{Rules: []ruleengine.Rule{rule}, Resolve: func(context.Context, string, dnsprobe.Options) dnsprobe.Result {
+		return dnsprobe.Result{CNAMEChain: []string{"owned.provider.test", "gone.other.test"}, FinalName: "gone.other.test", NXDomain: true, ChainComplete: true}
+	}}
+	got := s.Scan(context.Background(), "sub.example.test")
+	if got.Status != "clean" || len(got.Findings) != 0 {
+		t.Fatalf("intermediate provider must not inherit final NXDOMAIN: %+v", got)
+	}
+}
+
 func TestVerifiedParentNSUnresolvedDelegationIsEdgeCase(t *testing.T) {
 	rule := ruleengine.Rule{ID: "digital-ocean", Service: "Digital Ocean", NSSuffixes: []string{"digitalocean.com"}, TargetNXDomain: true, Status: "edge_case", Source: "https://example.test/rule"}
 	s := Scanner{Rules: []ruleengine.Rule{rule}, IncludeEdgeCases: true, Resolve: func(context.Context, string, dnsprobe.Options) dnsprobe.Result {
@@ -82,6 +95,17 @@ func TestVerifiedParentNSUnresolvedDelegationIsEdgeCase(t *testing.T) {
 	got := s.Scan(context.Background(), "sub.example.test")
 	if got.Status != "edge_case" || len(got.Findings) != 1 || !got.Findings[0].DelegationUnresolved || got.Findings[0].TargetNXDomain {
 		t.Fatalf("expected lower-confidence unresolved delegation evidence: %+v", got)
+	}
+}
+
+func TestNSDoesNotInheritUnrelatedFinalNXDomain(t *testing.T) {
+	rule := ruleengine.Rule{ID: "digital-ocean", Service: "Digital Ocean", NSExact: []string{"ns1.digitalocean.com"}, TargetNXDomain: true, Status: "edge_case", Source: "https://example.test/rule"}
+	s := Scanner{Rules: []ruleengine.Rule{rule}, IncludeEdgeCases: true, Resolve: func(context.Context, string, dnsprobe.Options) dnsprobe.Result {
+		return dnsprobe.Result{Query: "sub.example.test", NS: []string{"ns1.digitalocean.com"}, CNAMEChain: []string{"gone.other.test"}, FinalName: "gone.other.test", NXDomain: true, ChainComplete: true}
+	}}
+	got := s.Scan(context.Background(), "sub.example.test")
+	if got.Status != "clean" || len(got.Findings) != 0 {
+		t.Fatalf("parent NS must not inherit a different CNAME target's NXDOMAIN: %+v", got)
 	}
 }
 

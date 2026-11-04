@@ -18,12 +18,12 @@ func TestEmbeddedRulesParse(t *testing.T) {
 
 func TestCNAMEBoundaryAndExactMatch(t *testing.T) {
 	rule := Rule{CNAMESuffixes: []string{"example.com"}, CNAMEExact: []string{"fixed.other.test"}}
-	for _, name := range []string{"example.com.", "sub.example.com.", "fixed.other.test."} {
+	for _, name := range []string{"sub.example.com.", "fixed.other.test."} {
 		if got := MatchDNS(rule, []string{name}, nil, nil, nil); len(got) != 1 {
 			t.Errorf("expected %s to match, got %v", name, got)
 		}
 	}
-	for _, name := range []string{"notexample.com", "example.com.attacker.test", "sub.fixed.other.test"} {
+	for _, name := range []string{"example.com", "notexample.com", "example.com.attacker.test", "sub.fixed.other.test"} {
 		if got := MatchDNS(rule, []string{name}, nil, nil, nil); len(got) != 0 {
 			t.Errorf("expected %s not to match, got %v", name, got)
 		}
@@ -31,7 +31,7 @@ func TestCNAMEBoundaryAndExactMatch(t *testing.T) {
 }
 
 func TestRegexAndNSMatching(t *testing.T) {
-	rule := Rule{CNAMERegexes: []string{`^[^.]+-portal\.apigee\.net$`}, NSSuffixes: []string{"digitalocean.com"}}
+	rule := Rule{CNAMERegexes: []string{`^[^.]+-portal\.apigee\.net$`}, NSExact: []string{"ns1.digitalocean.com"}}
 	if got := MatchDNS(rule, []string{"customer-portal.apigee.net"}, nil, nil, nil); len(got) != 1 {
 		t.Fatalf("expected CNAME regex match: %v", got)
 	}
@@ -40,6 +40,9 @@ func TestRegexAndNSMatching(t *testing.T) {
 	}
 	if got := MatchDNS(rule, nil, nil, nil, []string{"ns1.digitalocean.com"}); len(got) != 1 || got[0].Record != "NS" {
 		t.Fatalf("expected NS match: %v", got)
+	}
+	if got := MatchDNS(rule, nil, nil, nil, []string{"other.digitalocean.com"}); len(got) != 0 {
+		t.Fatalf("unexpected broad NS match: %v", got)
 	}
 }
 
@@ -52,8 +55,13 @@ func TestBodyRegexAndStatusOnly(t *testing.T) {
 		t.Fatal("status mismatch must fail")
 	}
 	onlyStatus := Rule{HTTPStatuses: []int{404}}
-	if _, ok := MatchHTTP(onlyStatus, 404, nil); !ok {
-		t.Fatal("expected status-only match")
+	if _, ok := MatchHTTP(onlyStatus, 404, nil); ok {
+		t.Fatal("status alone must not match")
+	}
+	onlyStatus.ID, onlyStatus.Service, onlyStatus.Source, onlyStatus.Status = "weak", "Weak", "https://example.test", "edge_case"
+	onlyStatus.CNAMEExact = []string{"provider.example.test"}
+	if err := validate(onlyStatus); err == nil {
+		t.Fatal("status-only rule must be rejected by the parser")
 	}
 }
 

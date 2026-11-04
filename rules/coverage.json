@@ -3,12 +3,13 @@
   "reference": {
     "edoverflow_commit": "5bd4e12837911c8475486f1da922c9b9c706e632",
     "subdominator_commit": "9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0",
-    "scope": "Services loaded by Subdominator after status overrides and custom additions; service identities, not proven claimability or match quality"
+    "scope": "All 97 historical reference service identities; active and excluded decisions are tracked separately. Neither count nor a fingerprint proves claimability."
   },
   "counts": {
     "subdominator_services": 97,
-    "abigail_mapped_services": 97,
-    "abigail_rules": 97,
+    "abigail_mapped_services": 53,
+    "abigail_rules": 53,
+    "excluded_services": 44,
     "unmapped_services": 0
   },
   "services": [
@@ -16,47 +17,58 @@
       "upstream_service": "Acquia",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "edge_case",
-      "abigail_rule_id": "acquia",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
       "notes": [
-        "Subdominator promotes upstream Not vulnerable to edge case in code"
-      ]
+        "Subdominator promotes upstream Not vulnerable to edge case in code",
+        "The reference catalog classifies this service as Not vulnerable; no current controlled counterevidence is available."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "ActiveCampaign",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "activecampaign",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "The fingerprint can describe an owned, inactive, unpaid, unpublished, or otherwise non-claimable resource, or the documented target has changed."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Aftership",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
       "abigail_rule_id": "aftership",
-      "abigail_status": "vulnerable",
+      "abigail_status": "edge_case",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "Downgraded after rule-quality audit; signature alone does not establish claimability."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Agile CRM",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
       "abigail_rule_id": "agile-crm",
-      "abigail_status": "vulnerable",
+      "abigail_status": "edge_case",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [
+        "Downgraded after rule-quality audit; signature alone does not establish claimability."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Aha",
@@ -67,40 +79,51 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Airee.ru",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "airee-ru",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [
+        "The fingerprint can describe an owned, inactive, unpaid, unpublished, or otherwise non-claimable resource, or the documented target has changed."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Amazon Cognito",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
       "abigail_rule_id": "amazon-cognito",
-      "abigail_status": "vulnerable",
+      "abigail_status": "edge_case",
       "dns_mode": "cname",
       "evidence_mode": "nxdomain",
-      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "source": "https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-user-pools-assign-domain-prefix.html",
+      "notes": [
+        "Downgraded after rule-quality audit; signature alone does not establish claimability.",
+        "DNS or HTTP selector refined against current provider documentation."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Anima",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
       "abigail_rule_id": "anima",
-      "abigail_status": "vulnerable",
+      "abigail_status": "edge_case",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [
+        "Downgraded after rule-quality audit; signature alone does not establish claimability."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Announcekit",
@@ -111,29 +134,36 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Apigee",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
       "abigail_rule_id": "apigee",
-      "abigail_status": "vulnerable",
+      "abigail_status": "edge_case",
       "dns_mode": "cname",
       "evidence_mode": "nxdomain",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "Downgraded after rule-quality audit; signature alone does not establish claimability."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Appery.io",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "appery-io",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "The fingerprint can describe an owned, inactive, unpaid, unpublished, or otherwise non-claimable resource, or the documented target has changed."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "AWS/Elastic Beanstalk",
@@ -143,8 +173,11 @@
       "abigail_status": "vulnerable",
       "dns_mode": "cname",
       "evidence_mode": "nxdomain",
-      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "source": "https://docs.aws.amazon.com/elasticbeanstalk/latest/api/API_CheckDNSAvailability.html",
+      "notes": [
+        "Scoped to regional names that the AWS availability API can verify; generated and legacy aliases are excluded."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "AWS/S3",
@@ -154,89 +187,111 @@
       "abigail_status": "vulnerable",
       "dns_mode": "cname",
       "evidence_mode": "body",
-      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "source": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html",
+      "notes": [
+        "DNS or HTTP selector refined against current provider documentation."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Better Uptime",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "better-uptime",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "status_only",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
       "notes": [
-        "Abigail downgrades status-only evidence to edge_case"
-      ]
+        "Abigail downgrades status-only evidence to edge_case",
+        "HTTP status alone is not provider-specific missing-resource evidence."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "BigCartel",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
       "abigail_rule_id": "bigcartel",
-      "abigail_status": "vulnerable",
+      "abigail_status": "edge_case",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "Downgraded after rule-quality audit; signature alone does not establish claimability."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Bitbucket",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "bitbucket",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [
+        "Bitbucket Cloud hosted sites use <workspaceid>.bitbucket.io and do not support custom hostnames; a third-party CNAME does not establish claimability. See https://support.atlassian.com/bitbucket-cloud/docs/publishing-a-website-on-bitbucket-cloud/ and https://community.atlassian.com/forums/discussion/855794/whats-bitbucket-ios-ip-address-for-page-hosting-on-custom-url ."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Branch.io",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "branch-io",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "A missing Branch link can remain under an owned account; the fingerprint does not show an unassigned domain."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Brandpad",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
       "abigail_rule_id": "brandpad",
-      "abigail_status": "vulnerable",
+      "abigail_status": "edge_case",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "Downgraded after rule-quality audit; signature alone does not establish claimability."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Brightcove",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "brightcove",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "Brightcove-provided domains are not custom-domain CNAME targets. Publisher-registered custom domains point to a site-specific CloudFront hostname, which this fingerprint cannot safely identify. See https://gallery.support.brightcove.com/settings/configuring-custom-domains-and-ssl.html ."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Bubble.io",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "bubble-io",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "status_only",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
       "notes": [
-        "Abigail downgrades status-only evidence to edge_case"
-      ]
+        "Abigail downgrades status-only evidence to edge_case",
+        "HTTP status alone is not provider-specific missing-resource evidence."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Campaign Monitor",
@@ -247,7 +302,8 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Canny",
@@ -258,7 +314,8 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Cargo Collective",
@@ -269,31 +326,37 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "ConvertKit",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "convertkit",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname_or_ip",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "The fingerprint can describe an owned, inactive, unpaid, unpublished, or otherwise non-claimable resource, or the documented target has changed."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "DatoCMS.com",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "datocms-com",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
       "notes": [
-        "Abigail applies a conservative confidence downgrade"
-      ]
+        "Abigail applies a conservative confidence downgrade",
+        "The body text is generic or unrelated to resource availability; the DNS selector does not repair the ambiguity."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Digital Ocean",
@@ -305,43 +368,53 @@
       "evidence_mode": "nxdomain",
       "source": "https://docs.digitalocean.com/products/networking/dns/details/features/",
       "notes": [
-        "Abigail applies a conservative confidence downgrade"
-      ]
+        "Abigail applies a conservative confidence downgrade",
+        "DNS or HTTP selector refined against current provider documentation."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Discourse",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "discourse",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "nxdomain",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [
+        "The target is shared or stale, so NXDOMAIN does not establish that the scanned hostname can be claimed."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Fastly",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "edge_case",
-      "abigail_rule_id": "fastly",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
       "notes": [
-        "Subdominator promotes upstream Not vulnerable to edge case in code"
-      ]
+        "Subdominator promotes upstream Not vulnerable to edge case in code",
+        "The reference catalog classifies this service as Not vulnerable; no current controlled counterevidence is available."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Flexbe",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "edge_case",
-      "abigail_rule_id": "flexbe",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "The body text is generic or unrelated to resource availability; the DNS selector does not repair the ambiguity."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Flywheel",
@@ -352,7 +425,8 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Frontify",
@@ -363,66 +437,80 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Gemfury",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "gemfury",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [
+        "The body text is generic or unrelated to resource availability; the DNS selector does not repair the ambiguity."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "GetCloudApp",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "getcloudapp",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "status_only",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
       "notes": [
-        "Abigail downgrades status-only evidence to edge_case"
-      ]
+        "Abigail downgrades status-only evidence to edge_case",
+        "HTTP status alone is not provider-specific missing-resource evidence."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Getresponse",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "getresponse",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
       "notes": [
-        "Abigail applies a conservative confidence downgrade"
-      ]
+        "Abigail applies a conservative confidence downgrade",
+        "The body text is generic or unrelated to resource availability; the DNS selector does not repair the ambiguity."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Ghost",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
       "abigail_rule_id": "ghost",
-      "abigail_status": "vulnerable",
+      "abigail_status": "edge_case",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [
+        "Downgraded after rule-quality audit; signature alone does not establish claimability."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Gitbook",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
       "abigail_rule_id": "gitbook",
-      "abigail_status": "vulnerable",
+      "abigail_status": "edge_case",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "Downgraded after rule-quality audit; signature alone does not establish claimability."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Github",
@@ -435,7 +523,8 @@
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
       "notes": [
         "Displayed as GitHub Pages in Abigail"
-      ]
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "HatenaBlog",
@@ -446,18 +535,22 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Help Juice",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
       "abigail_rule_id": "help-juice",
-      "abigail_status": "vulnerable",
+      "abigail_status": "edge_case",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [
+        "Downgraded after rule-quality audit; signature alone does not establish claimability."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Help Scout",
@@ -468,20 +561,23 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Helprace",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "helprace",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "status_only",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
       "notes": [
-        "Abigail downgrades status-only evidence to edge_case"
-      ]
+        "Abigail downgrades status-only evidence to edge_case",
+        "HTTP status alone is not provider-specific missing-resource evidence."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Heroku",
@@ -492,20 +588,23 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Instapage",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "edge_case",
-      "abigail_rule_id": "instapage",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
       "notes": [
-        "Subdominator promotes upstream Not vulnerable to edge case in code"
-      ]
+        "Subdominator promotes upstream Not vulnerable to edge case in code",
+        "The reference catalog classifies this service as Not vulnerable; no current controlled counterevidence is available."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Intercom",
@@ -516,18 +615,22 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "JazzHR",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "edge_case",
-      "abigail_rule_id": "jazzhr",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "The fingerprint can describe an owned, inactive, unpaid, unpublished, or otherwise non-claimable resource, or the documented target has changed."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "JetBrains",
@@ -538,18 +641,22 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Kajabi",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
       "abigail_rule_id": "kajabi",
-      "abigail_status": "vulnerable",
+      "abigail_status": "edge_case",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "Downgraded after rule-quality audit; signature alone does not establish claimability."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Landingi",
@@ -560,31 +667,37 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "LaunchRock",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "launchrock",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "status_only",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
       "notes": [
-        "Abigail downgrades status-only evidence to edge_case"
-      ]
+        "Abigail downgrades status-only evidence to edge_case",
+        "HTTP status alone is not provider-specific missing-resource evidence."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "LeadPages.com",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
       "abigail_rule_id": "leadpages-com",
-      "abigail_status": "vulnerable",
+      "abigail_status": "edge_case",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "Downgraded after rule-quality audit; signature alone does not establish claimability."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Mashery",
@@ -595,31 +708,38 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Meteor Cloud (Galaxy)",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "meteor-cloud-galaxy",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "status_only",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
       "notes": [
-        "Abigail downgrades status-only evidence to edge_case"
-      ]
+        "Abigail downgrades status-only evidence to edge_case",
+        "HTTP status alone is not provider-specific missing-resource evidence."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Microsoft Azure",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
       "abigail_rule_id": "microsoft-azure",
-      "abigail_status": "vulnerable",
+      "abigail_status": "edge_case",
       "dns_mode": "cname",
       "evidence_mode": "nxdomain",
-      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "source": "https://learn.microsoft.com/en-us/azure/security/fundamentals/subdomain-takeover",
+      "notes": [
+        "Downgraded after rule-quality audit; signature alone does not establish claimability.",
+        "DNS or HTTP selector refined against current provider documentation."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Netlify",
@@ -630,31 +750,37 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Ngrok",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "ngrok",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [
+        "The fingerprint can describe an owned, inactive, unpaid, unpublished, or otherwise non-claimable resource, or the documented target has changed."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Pagewiz",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "pagewiz",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
       "notes": [
-        "Abigail applies a conservative confidence downgrade"
-      ]
+        "Abigail applies a conservative confidence downgrade",
+        "The body text is generic or unrelated to resource availability; the DNS selector does not repair the ambiguity."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Pantheon",
@@ -665,18 +791,22 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Pingdom",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
       "abigail_rule_id": "pingdom",
-      "abigail_status": "vulnerable",
+      "abigail_status": "edge_case",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [
+        "Downgraded after rule-quality audit; signature alone does not establish claimability."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Proposify",
@@ -687,18 +817,22 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Readme.io",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "readme-io",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [
+        "The fingerprint can describe an owned, inactive, unpaid, unpublished, or otherwise non-claimable resource, or the documented target has changed."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Readthedocs",
@@ -708,30 +842,40 @@
       "abigail_status": "vulnerable",
       "dns_mode": "cname",
       "evidence_mode": "body",
-      "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "source": "https://docs.readthedocs.com/platform/stable/guides/custom-domains.html",
+      "notes": [
+        "Official Community custom-domain target is the exact readthedocs.io hostname.",
+        "Only the exact Community CNAME target is active; project subdomains are not equivalent custom-domain targets."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Refined",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "refined",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "nxdomain",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "The target is shared or stale, so NXDOMAIN does not establish that the scanned hostname can be claimed."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Shopify",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "edge_case",
-      "abigail_rule_id": "shopify",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [
+        "The fingerprint can describe an owned, inactive, unpaid, unpublished, or otherwise non-claimable resource, or the documented target has changed."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Short.io",
@@ -742,7 +886,8 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "SimpleBooklet",
@@ -753,18 +898,22 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "SmartJobBoard",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "smartjobboard",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname_or_ip",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [
+        "The body text is generic or unrelated to resource availability; the DNS selector does not repair the ambiguity."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Smartling",
@@ -775,31 +924,37 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Smugsmug",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "smugsmug",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "nxdomain",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [
+        "The target is shared or stale, so NXDOMAIN does not establish that the scanned hostname can be claimed."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Softr",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "softr",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname_or_ip",
       "evidence_mode": "status_only",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
       "notes": [
-        "Abigail downgrades status-only evidence to edge_case"
-      ]
+        "Abigail downgrades status-only evidence to edge_case",
+        "HTTP status alone is not provider-specific missing-resource evidence."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Sprintful",
@@ -810,18 +965,22 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Strikingly",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "strikingly",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [
+        "The body text is generic or unrelated to resource availability; the DNS selector does not repair the ambiguity."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Surge.sh",
@@ -831,19 +990,25 @@
       "abigail_status": "vulnerable",
       "dns_mode": "cname",
       "evidence_mode": "body",
-      "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "source": "https://surge.sh/docs/platform/custom-domains",
+      "notes": [
+        "DNS or HTTP selector refined against current provider documentation."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Surveygizmo",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "surveygizmo",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "The body text is generic or unrelated to resource availability; the DNS selector does not repair the ambiguity."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "SurveySparrow",
@@ -854,18 +1019,22 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Tave",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "tave",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "The body text is generic or unrelated to resource availability; the DNS selector does not repair the ambiguity."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Teamwork",
@@ -876,40 +1045,50 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Thinkific",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "thinkific",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "The fingerprint can describe an owned, inactive, unpaid, unpublished, or otherwise non-claimable resource, or the documented target has changed."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Tictail",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "tictail",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [
+        "The Tictail platform ceased operation after its Shopify acquisition; the old registration prompt is stale."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Tilda",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "edge_case",
-      "abigail_rule_id": "tilda",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [
+        "The fingerprint can describe an owned, inactive, unpaid, unpublished, or otherwise non-claimable resource, or the documented target has changed."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Tribe",
@@ -920,7 +1099,8 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Tumblr",
@@ -931,7 +1111,8 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Uberflip",
@@ -942,57 +1123,67 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Unbounce",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "edge_case",
-      "abigail_rule_id": "unbounce",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
       "notes": [
-        "Subdominator promotes upstream Not vulnerable to edge case in code"
-      ]
+        "Subdominator promotes upstream Not vulnerable to edge case in code",
+        "The reference catalog classifies this service as Not vulnerable; no current controlled counterevidence is available."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Uptimerobot",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "uptimerobot",
-      "abigail_status": "vulnerable",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [
+        "The fingerprint can describe an owned, inactive, unpaid, unpublished, or otherwise non-claimable resource, or the documented target has changed."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "UseResponse",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "useresponse",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "status_only",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
       "notes": [
-        "Abigail downgrades status-only evidence to edge_case"
-      ]
+        "Abigail downgrades status-only evidence to edge_case",
+        "HTTP status alone is not provider-specific missing-resource evidence."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "UserVoice",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "edge_case",
-      "abigail_rule_id": "uservoice",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
       "notes": [
-        "Subdominator promotes upstream Not vulnerable to edge case in code"
-      ]
+        "Subdominator promotes upstream Not vulnerable to edge case in code",
+        "The reference catalog classifies this service as Not vulnerable; no current controlled counterevidence is available."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Vend",
@@ -1003,18 +1194,22 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Vercel",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "edge_case",
-      "abigail_rule_id": "vercel",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [
+        "The fingerprint can describe an owned, inactive, unpaid, unpublished, or otherwise non-claimable resource, or the documented target has changed."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Webflow",
@@ -1025,7 +1220,8 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Wishpond",
@@ -1036,7 +1232,8 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Wix",
@@ -1047,29 +1244,36 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Wordpress",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
       "abigail_rule_id": "wordpress",
-      "abigail_status": "vulnerable",
+      "abigail_status": "edge_case",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/SubdomainHijack.cs",
-      "notes": []
+      "notes": [
+        "Downgraded after rule-quality audit; signature alone does not establish claimability."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Worksites",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "vulnerable",
       "abigail_rule_id": "worksites",
-      "abigail_status": "vulnerable",
+      "abigail_status": "edge_case",
       "dns_mode": "cname_or_ip",
       "evidence_mode": "body",
       "source": "https://github.com/EdOverflow/can-i-take-over-xyz/blob/5bd4e12837911c8475486f1da922c9b9c706e632/fingerprints.json",
-      "notes": []
+      "notes": [
+        "Downgraded: the public takeover proof dates to 2020, and current registration behavior has not been reconfirmed. See https://github.com/EdOverflow/can-i-take-over-xyz/issues/142 ."
+      ],
+      "decision": "active"
     },
     {
       "upstream_service": "Wufoo",
@@ -1080,46 +1284,53 @@
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
-      "notes": []
+      "notes": [],
+      "decision": "active"
     },
     {
       "upstream_service": "Zendesk",
       "upstream_catalog": "EdOverflow",
       "subdominator_status": "edge_case",
-      "abigail_rule_id": "zendesk",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "body",
       "source": "https://support.zendesk.com/hc/en-us/articles/4408838571930-Host-mapping-Changing-the-URL-of-your-help-center",
       "notes": [
-        "Subdominator promotes upstream Not vulnerable to edge case in code"
-      ]
+        "Subdominator promotes upstream Not vulnerable to edge case in code",
+        "The reference catalog classifies this service as Not vulnerable; no current controlled counterevidence is available."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Zoho Forms",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "zoho-forms",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "status_only",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
       "notes": [
-        "Abigail downgrades status-only evidence to edge_case"
-      ]
+        "Abigail downgrades status-only evidence to edge_case",
+        "HTTP status alone is not provider-specific missing-resource evidence."
+      ],
+      "decision": "excluded"
     },
     {
       "upstream_service": "Zoho Forms India",
       "upstream_catalog": "Stratus custom",
       "subdominator_status": "vulnerable",
-      "abigail_rule_id": "zoho-forms-india",
-      "abigail_status": "edge_case",
+      "abigail_rule_id": "",
+      "abigail_status": "excluded",
       "dns_mode": "cname",
       "evidence_mode": "status_only",
       "source": "https://github.com/Stratus-Security/Subdominator/blob/9f9dfa0383de9ca786a118b8a01d3570cfe5bbd0/Subdominator/custom_fingerprints.json",
       "notes": [
-        "Abigail downgrades status-only evidence to edge_case"
-      ]
+        "Abigail downgrades status-only evidence to edge_case",
+        "HTTP status alone is not provider-specific missing-resource evidence."
+      ],
+      "decision": "excluded"
     }
   ]
 }

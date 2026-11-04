@@ -8,11 +8,12 @@ Each entry in `rules` has the following fields:
 | --- | --- | --- |
 | `id` | string | Stable, unique machine identifier. |
 | `service` | string | Human-readable provider name. |
-| `cname_suffixes` | string array | DNS names matched on a label boundary: `x.example.com` and `example.com` match `example.com`, but `notexample.com` does not. Values have no leading dot. |
+| `cname_suffixes` | string array | DNS names matched on a child-label boundary: `x.example.com` matches `example.com`; bare `example.com` and `notexample.com` do not. Use `cname_exact` for a valid bare target. Values have no leading dot. |
 | `cname_exact` | string array | Exact CNAME target names, after lowercasing and removing a trailing dot. |
-| `cname_regexes` | string array | Go RE2 expressions matched against a normalized CNAME target. Anchor a pattern when an exact shape is required. |
+| `cname_regexes` | string array | Go RE2 expressions matched against a normalized CNAME target. The parser requires both `^` and `$` anchors. |
 | `a_records`, `aaaa_records` | string arrays | Exact IPv4 and IPv6 addresses. |
-| `ns_suffixes` | string array | Name-server targets matched on a DNS label boundary. A direct DNS route is needed; Abigail can obtain one from the system configuration when unambiguous, or from `--resolver`. |
+| `ns_exact` | string array | Exact name-server targets after normalization. The DigitalOcean rule uses its three published server names. |
+| `ns_suffixes` | string array | Name-server targets matched only on a child-label boundary. A direct DNS route is needed; Abigail can obtain one from the system configuration when unambiguous, or from `--resolver`. |
 | `http_statuses` | integer array | Acceptable HTTP response codes. |
 | `body_substrings` | string array | Literal, case-sensitive fragments in the HTTP response body. These are not regular expressions. |
 | `body_regexes` | string array | Go RE2 expressions matched against the bounded HTTP body. |
@@ -20,7 +21,7 @@ Each entry in `rules` has the following fields:
 | `status` | string | Abigail's confidence category: `vulnerable` or `edge_case`. This is not proof of claimability. |
 | `source` | URL string | Public source for the rule. Source repository links are pinned to commits. |
 
-A DNS record match is required before checking HTTP or NXDOMAIN evidence. Exact, suffix, and regex DNS matchers are alternatives. Values within `http_statuses` are alternatives, as are the literal and regex body fingerprints. If both status and body conditions are present, **both are required**. A status-only rule is allowed only as an `edge_case`: status alone cannot justify a high-confidence result. NXDOMAIN is a separate evidence mode and must not be combined with HTTP conditions. Complete CNAME-chain and NS evidence requires a direct DNS route, obtained from an unambiguous system configuration or an explicit `--resolver`.
+A DNS record match is required before checking HTTP or NXDOMAIN evidence. Exact, suffix, and regex DNS matchers are alternatives. Values within `http_statuses` are alternatives, as are the literal and regex body fingerprints. Every HTTP rule needs a non-empty body fingerprint; the parser rejects status-only rules. If both status and body conditions are present, **both are required**. NXDOMAIN is a separate evidence mode and must not be combined with HTTP conditions. For a CNAME rule, NXDOMAIN must apply to the **final** matched CNAME target, not an earlier hop in the chain. Complete CNAME-chain and NS evidence requires a direct DNS route, obtained from an unambiguous system configuration or an explicit `--resolver`.
 
 For the DigitalOcean NS rule only, Abigail may emit a lower-confidence finding
 with `delegation_unresolved: true` when it verifies the exact child NS
@@ -29,4 +30,4 @@ That result omits `target_nxdomain` evidence: no NXDOMAIN was observed, and
 claimability is unknown. A recursive resolver's ordinary parent NS records do
 not satisfy this exception.
 
-An alert means the observations match a published signature. It does not prove that the resource can be claimed. Rule updates should include a reproducible positive fixture, a negative fixture, and a source or provider verification explaining why the service is still claimable. See [coverage.json](coverage.json) for the service mapping and [NOTICE.md](NOTICE.md) for provenance and licensing.
+An alert means the observations match a published signature. It does not prove that the resource can be claimed. Rule updates should include a reproducible positive fixture, a negative fixture, and a source or provider verification explaining why the service is still claimable. See [coverage.json](coverage.json) for the 97-identity audit, including excluded entries, and [NOTICE.md](NOTICE.md) for provenance and licensing.

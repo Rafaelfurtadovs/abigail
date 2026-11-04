@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.2.1
+
+- Review all 97 service identities in the reference catalog. Retain 53 active rules and record the 44 exclusions with reasons in `rules/coverage.json`. Remove status-only alerts, documented benign account states, generic fingerprints, unsupported or invalid custom-domain routes, stale targets, and a discontinued service.
+- Strengthen AWS S3 detection with regional REST and website CNAMEs plus HTTP 404 and `NoSuchBucket`. Add current Surge CNAME and A targets, narrow Cognito to documented prefix domains, restrict Beanstalk to regional names that can be checked, restrict Azure to current resource shapes, use exact DigitalOcean nameservers, and match only the documented Community CNAME for Read the Docs.
+- Require NXDOMAIN to apply to a matching final CNAME target; an intermediate provider CNAME no longer inherits a later target's NXDOMAIN. DNS suffixes now require a child label, and the rule parser rejects status-only HTTP rules.
+- Add opt-in, read-only Cognito `DescribeUserPoolDomain` validation. An exact existing prefix can dismiss a finding; absence and API failures remain inconclusive.
+- Downgrade signatures with generic missing-page evidence or conditional provider protection to `edge_case`. These changes target known false-positive paths but are not proof of higher overall accuracy.
+
 ## v0.2.0
 
 - Map all 97 effective Subdominator service identities to an offline, versioned rule pack. This is service-count parity, not a claim of equal detection accuracy.

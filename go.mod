@@ -7,6 +7,7 @@ require (
 	github.com/Azure/azure-sdk-for-go/sdk/azidentity v1.15.0
 	github.com/aws/aws-sdk-go-v2 v1.47.5
 	github.com/aws/aws-sdk-go-v2/config v1.33.13
+	github.com/aws/aws-sdk-go-v2/service/cognitoidentityprovider v1.75.7
 	github.com/aws/aws-sdk-go-v2/service/elasticbeanstalk v1.43.6
 	github.com/miekg/dns v1.1.73
 	golang.org/x/net v0.60.0

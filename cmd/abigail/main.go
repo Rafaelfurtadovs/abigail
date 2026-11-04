@@ -25,7 +25,7 @@ import (
 	"github.com/Rafaelfurtadovs/abigail/rules"
 )
 
-const version = "0.2.0"
+const version = "0.2.1"
 
 type config struct {
 	domain            string
@@ -91,7 +91,7 @@ func scanCommand(args []string, stdout, stderr io.Writer) int {
 	flags.DurationVar(&cfg.timeout, "timeout", 5*time.Second, "timeout for individual DNS/HTTP requests")
 	flags.BoolVar(&cfg.includeEdgeCases, "include-edge-cases", true, "include lower-confidence provider rules (default; compatibility flag)")
 	flags.BoolVar(&cfg.excludeEdgeCases, "exclude-edge-cases", false, "exclude lower-confidence provider rules")
-	flags.BoolVar(&cfg.validate, "validate", false, "check supported provider names through AWS/Azure APIs after signature matching")
+	flags.BoolVar(&cfg.validate, "validate", false, "check supported AWS/Azure resource names through read-only APIs after signature matching")
 	flags.StringVar(&cfg.azureSubscription, "azure-subscription", os.Getenv("AZURE_SUBSCRIPTION_ID"), "Azure subscription ID for --validate (or AZURE_SUBSCRIPTION_ID)")
 	flags.Usage = func() {
 		fmt.Fprintln(stderr, "Usage: abigail scan (-d hostname | -l file) [options]")

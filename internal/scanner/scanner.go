@@ -78,7 +78,7 @@ func (s Scanner) Scan(ctx context.Context, domain string) Result {
 	}
 	dnsOptions := s.DNSOptions
 	for _, rule := range s.Rules {
-		if len(rule.NSSuffixes) > 0 && (s.IncludeEdgeCases || rule.Status != "edge_case") {
+		if (len(rule.NSExact) > 0 || len(rule.NSSuffixes) > 0) && (s.IncludeEdgeCases || rule.Status != "edge_case") {
 			dnsOptions.CheckNS = true
 			break
 		}
@@ -105,7 +105,7 @@ func (s Scanner) Scan(ctx context.Context, domain string) Result {
 		if rule.TargetNXDomain {
 			// Only a full, explicit CNAME chain can attribute an NXDOMAIN to
 			// the provider's target. A missing original hostname is not enough.
-			if result.DNS.ChainComplete && result.DNS.NXDomain && hasDelegationMatch(matches) {
+			if result.DNS.ChainComplete && result.DNS.NXDomain && hasFinalTargetMatch(matches, result.DNS.FinalName, result.DNS.Query) {
 				s.addFinding(ctx, &result, finding(rule, matches, httpprobe.Result{}, ""))
 			} else if rule.Status == "edge_case" && result.DNS.NSParentVerified && !result.DNS.ChainComplete && hasNSMatch(matches) {
 				// A verified parent delegation to provider NS plus a failed
@@ -194,9 +194,10 @@ func (s Scanner) Scan(ctx context.Context, domain string) Result {
 	return result
 }
 
-func hasDelegationMatch(matches []ruleengine.DNSMatch) bool {
+func hasFinalTargetMatch(matches []ruleengine.DNSMatch, finalName, query string) bool {
 	for _, match := range matches {
-		if match.Record == "CNAME" || match.Record == "NS" {
+		if (match.Record == "CNAME" && normalizeTarget(match.Value) == normalizeTarget(finalName)) ||
+			(match.Record == "NS" && normalizeTarget(finalName) == normalizeTarget(query)) {
 			return true
 		}
 	}
