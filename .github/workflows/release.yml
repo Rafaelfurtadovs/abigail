@@ -16,6 +16,8 @@ jobs:
         with:
           go-version-file: go.mod
           cache: true
+      - name: Verify dependency licenses
+        run: python3 scripts/generate_licenses.py --check
       - name: Build archives and checksums
         shell: bash
         run: |
@@ -27,7 +29,7 @@ jobs:
             archive="abigail_${GITHUB_REF_NAME}_${os}_${arch}.tar.gz"
             GOOS="$os" GOARCH="$arch" CGO_ENABLED=0 \
               go build -trimpath -ldflags="-s -w" -o abigail ./cmd/abigail
-            tar -czf "dist/$archive" abigail LICENSE README.md rules/NOTICE.md rules/STRATUS_LICENSE.md
+            tar -czf "dist/$archive" abigail LICENSE README.md THIRD_PARTY_NOTICES.md docs licenses rules/NOTICE.md rules/STRATUS_LICENSE.md
           done
           cd dist
           sha256sum ./*.tar.gz > SHA256SUMS

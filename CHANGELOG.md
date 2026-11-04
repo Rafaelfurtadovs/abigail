@@ -1,5 +1,14 @@
 # Changelog
 
+## v0.3.0
+
+- Discover subdomains before takeover checks using a vendored, security-patched copy of Subfinder v2.17.0's default passive sources, including crt.name. The optional `--native-discovery` mode uses Abigail's direct crt.name, crt.sh, Cert Spotter, and HackerTarget queries. `scan -d` now treats its argument as a root domain, and `scan -l` treats each input line as a root; use `--no-discover` for exact hostnames.
+- Add optional bounded DNS wordlist discovery with `--brute` in either passive mode and a `--discover-only` mode to inspect discovered names without takeover checks.
+- Prevalidate Subfinder provider configuration and reject public-suffix discovery roots. Set a per-source discovery deadline with `--discovery-timeout` (default 10 minutes), cap results at 50,000 unique hostnames per run by default, and cap SDK responses at 32 MiB. Roots from `-l` share one provider rate limiter.
+- Harden the embedded Subfinder HTTP session with HTTPS certificate verification, cross-origin redirect blocking, credential-safe errors, and the same session for Chaos.
+- Update vulnerable transitive Go dependencies identified by `govulncheck`; the final scan reports no known vulnerabilities.
+- Report partial discovery failures and fail when every passive source fails, instead of silently scanning only the root. Discovery and takeover detection remain incomplete by nature; results require review.
+
 ## v0.2.3
 
 - Show the Abigail ASCII banner above the command-line usage text.

@@ -31,6 +31,7 @@ jobs:
         with:
           go-version-file: go.mod
           cache: true
+      - run: python3 scripts/generate_licenses.py --check
       - run: |
           for target in darwin/amd64 darwin/arm64 linux/amd64 linux/arm64; do
             GOOS=${target%/*} GOARCH=${target#*/} CGO_ENABLED=0 \

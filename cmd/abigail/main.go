@@ -23,9 +23,11 @@ import (
 	"github.com/Rafaelfurtadovs/abigail/internal/scanner"
 	"github.com/Rafaelfurtadovs/abigail/internal/validators"
 	"github.com/Rafaelfurtadovs/abigail/rules"
+	folderutil "github.com/projectdiscovery/utils/folder"
+	"golang.org/x/net/publicsuffix"
 )
 
-const version = "0.2.3"
+const version = "0.3.0"
 
 type config struct {
 	domain            string
@@ -41,6 +43,13 @@ type config struct {
 	excludeEdgeCases  bool
 	validate          bool
 	azureSubscription string
+	providerConfig    string
+	noDiscover        bool
+	nativeDiscovery   bool
+	discoverOnly      bool
+	brute             bool
+	discoveryTimeout  time.Duration
+	maxHosts          int
 }
 
 func main() { os.Exit(run(os.Args[1:], os.Stdout, os.Stderr)) }
@@ -75,10 +84,12 @@ func usage(w io.Writer) {
 	fmt.Fprintln(w, `Abigail: evidence-based subdomain takeover detection
 
 Usage:
-  abigail scan -d sub.example.com [options]
-  abigail scan -l domains.txt [options]
+  abigail scan -d example.com [options]
+  abigail scan -l roots.txt [options]
+  abigail scan -d sub.example.com --no-discover [options]
   abigail version
 
+By default, scan discovers subdomains before takeover checks.
 Use "abigail scan -h" for scan options.`)
 }
 
@@ -86,10 +97,10 @@ func scanCommand(args []string, stdout, stderr io.Writer) int {
 	cfg := config{}
 	flags := flag.NewFlagSet("scan", flag.ContinueOnError)
 	flags.SetOutput(stderr)
-	flags.StringVar(&cfg.domain, "d", "", "one hostname to scan")
-	flags.StringVar(&cfg.domain, "domain", "", "one hostname to scan")
-	flags.StringVar(&cfg.list, "l", "", "file with one hostname per line; - reads stdin")
-	flags.StringVar(&cfg.list, "list", "", "file with one hostname per line; - reads stdin")
+	flags.StringVar(&cfg.domain, "d", "", "root domain to discover and scan; --no-discover scans it exactly")
+	flags.StringVar(&cfg.domain, "domain", "", "root domain to discover and scan; --no-discover scans it exactly")
+	flags.StringVar(&cfg.list, "l", "", "file with one root domain per line; - reads stdin")
+	flags.StringVar(&cfg.list, "list", "", "file with one root domain per line; - reads stdin")
 	flags.StringVar(&cfg.output, "o", "", "write output to a file atomically")
 	flags.StringVar(&cfg.output, "output", "", "write output to a file atomically")
 	flags.StringVar(&cfg.format, "format", "text", "output format: text or jsonl")
@@ -102,8 +113,15 @@ func scanCommand(args []string, stdout, stderr io.Writer) int {
 	flags.BoolVar(&cfg.excludeEdgeCases, "exclude-edge-cases", false, "exclude lower-confidence provider rules")
 	flags.BoolVar(&cfg.validate, "validate", false, "check supported AWS/Azure resource names through read-only APIs after signature matching")
 	flags.StringVar(&cfg.azureSubscription, "azure-subscription", os.Getenv("AZURE_SUBSCRIPTION_ID"), "Azure subscription ID for --validate (or AZURE_SUBSCRIPTION_ID)")
+	flags.StringVar(&cfg.providerConfig, "provider-config", "", "Subfinder provider API keys YAML (default: Subfinder's configured path)")
+	flags.BoolVar(&cfg.noDiscover, "no-discover", false, "scan only the supplied hostnames without discovering children")
+	flags.BoolVar(&cfg.nativeDiscovery, "native-discovery", false, "use Abigail's four direct passive sources instead of Subfinder")
+	flags.BoolVar(&cfg.discoverOnly, "discover-only", false, "print discovered subdomains without takeover checks")
+	flags.BoolVar(&cfg.brute, "brute", false, "also try a bounded built-in DNS wordlist")
+	flags.DurationVar(&cfg.discoveryTimeout, "discovery-timeout", 10*time.Minute, "total timeout for each passive discovery source")
+	flags.IntVar(&cfg.maxHosts, "max-hosts", 50000, "maximum unique hostnames per discovery run (1-100000)")
 	flags.Usage = func() {
-		fmt.Fprintln(stderr, "Usage: abigail scan (-d hostname | -l file) [options]")
+		fmt.Fprintln(stderr, "Usage: abigail scan (-d root | -l roots.txt) [options]")
 		flags.PrintDefaults()
 	}
 	if err := flags.Parse(args); err != nil {
@@ -120,9 +138,38 @@ func scanCommand(args []string, stdout, stderr io.Writer) int {
 		fmt.Fprintln(stderr, "--format must be text or jsonl")
 		return 2
 	}
-	if cfg.concurrency < 1 || cfg.concurrency > 256 || cfg.rate < 0 || cfg.rate > 10000 || cfg.timeout <= 0 {
+	if cfg.concurrency < 1 || cfg.concurrency > 256 || cfg.rate < 0 || cfg.rate > 10000 || cfg.timeout <= 0 || cfg.discoveryTimeout <= 0 || cfg.maxHosts < 1 || cfg.maxHosts > 100000 {
 		fmt.Fprintln(stderr, "invalid concurrency, rate or timeout")
 		return 2
+	}
+	if cfg.noDiscover && (cfg.discoverOnly || cfg.brute || cfg.nativeDiscovery || cfg.providerConfig != "") {
+		fmt.Fprintln(stderr, "--no-discover cannot be combined with discovery options")
+		return 2
+	}
+	if cfg.nativeDiscovery && cfg.providerConfig != "" {
+		fmt.Fprintln(stderr, "--provider-config requires the Subfinder discovery engine")
+		return 2
+	}
+	if !cfg.noDiscover && !cfg.nativeDiscovery {
+		providerPath := cfg.providerConfig
+		if providerPath == "" {
+			providerPath = os.Getenv("SUBFINDER_PROVIDER_CONFIG")
+		}
+		if providerPath == "" {
+			defaultPath := filepath.Join(folderutil.AppConfigDirOrDefault(".", "subfinder"), "provider-config.yaml")
+			if _, err := os.Stat(defaultPath); err == nil {
+				providerPath = defaultPath
+			} else if !errors.Is(err, os.ErrNotExist) {
+				fmt.Fprintf(stderr, "provider config: %v\n", err)
+				return 2
+			}
+		}
+		if providerPath != "" {
+			if err := validateProviderConfig(providerPath); err != nil {
+				fmt.Fprintf(stderr, "provider config: %v\n", err)
+				return 2
+			}
+		}
 	}
 	if cfg.excludeEdgeCases {
 		cfg.includeEdgeCases = false
@@ -144,10 +191,29 @@ func scanCommand(args []string, stdout, stderr io.Writer) int {
 		fmt.Fprintln(stderr, err)
 		return 2
 	}
-	domains, err := readDomains(cfg)
+	roots, err := readDomains(cfg)
 	if err != nil {
 		fmt.Fprintln(stderr, err)
 		return 2
+	}
+	if !cfg.noDiscover {
+		for _, root := range roots {
+			if _, err := publicsuffix.EffectiveTLDPlusOne(root); err != nil {
+				fmt.Fprintf(stderr, "discovery domain %q must be beneath a registrable domain\n", root)
+				return 2
+			}
+		}
+	}
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
+	defer stop()
+	domains := roots
+	var discovered []string
+	if !cfg.noDiscover {
+		domains, discovered, err = discoverDomains(ctx, roots, cfg, stderr)
+		if err != nil {
+			fmt.Fprintln(stderr, "discover subdomains:", err)
+			return 2
+		}
 	}
 
 	output, finish, err := openOutput(cfg.output, stdout)
@@ -155,8 +221,22 @@ func scanCommand(args []string, stdout, stderr io.Writer) int {
 		fmt.Fprintf(stderr, "open output: %v\n", err)
 		return 2
 	}
-	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
-	defer stop()
+	if cfg.discoverOnly {
+		if err := writeDiscovered(output, discovered, cfg.format); err != nil {
+			_ = finish(false)
+			fmt.Fprintln(stderr, "write output:", err)
+			return 2
+		}
+		if err := finish(ctx.Err() == nil); err != nil {
+			fmt.Fprintln(stderr, "write output:", err)
+			return 2
+		}
+		if ctx.Err() != nil {
+			fmt.Fprintln(stderr, "discovery interrupted")
+			return 2
+		}
+		return 0
+	}
 	code, writeErr := execute(ctx, cfg, domains, pack, output, stderr)
 	if err := finish(writeErr == nil && ctx.Err() == nil); err != nil && writeErr == nil {
 		writeErr = err
@@ -356,6 +436,8 @@ func execute(ctx context.Context, cfg config, domains []string, pack ruleengine.
 			_, writeErr = fmt.Fprintf(output, "[unknown] %s: %s\n", result.Domain, strings.Join(result.Errors, "; "))
 		} else if result.Status == "dismissed" {
 			_, writeErr = fmt.Fprintf(output, "[dismissed] %s: provider API reports the matched name unavailable\n", result.Domain)
+		} else if result.Status == "clean" && !cfg.noDiscover {
+			_, writeErr = fmt.Fprintf(output, "[clean] %s\n", result.Domain)
 		} else {
 			for _, finding := range result.Findings {
 				_, writeErr = fmt.Fprintf(output, "[%s] %s %s (%s: %s)\n", finding.Verdict, result.Domain, finding.Service, finding.DNS[0].Record, finding.DNS[0].Value)
